@@ -139,3 +139,78 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
 
 ---
 
+## 📅 Day 1: Inception of Open-Source EDA, OpenLANE and Sky130 PDK
+
+### 🔸 How to Talk to Computers?
+
+To understand how we interact with hardware, let’s begin with a familiar device — the **Arduino board**.
+
+This board has a small **microcontroller chip** at its center (highlighted in the image below), which acts as the "brain" of the system. Every input/output component on the board communicates with this chip.
+
+🧠 The journey of designing this chip — from a high-level idea down to physical manufacturing — is known as the **RTL to GDSII flow**.
+
+Arduino, as a platform, includes both:
+- A programmable circuit board (hardware), and
+- An IDE (Integrated Development Environment) to write and upload code to the board (software).
+
+![arduino-leonardo-board](https://github.com/user-attachments/assets/962acef5-4981-4989-a563-5be46bdf3c4d)
+
+---
+
+### 🧩 Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs
+
+A modern chip, especially something like a microcontroller or a processor, is typically packaged in formats such as **QFN-48 (Quad Flat No-lead)**. Inside such a chip package, there are several components:
+
+- **Pads**: Points where external pins connect to the internal silicon.
+- **Core**: The main logic area where all gates and circuits are implemented.
+- **Die**: The actual piece of silicon that houses the core and other components.
+
+In a chip like one based on **RISC-V**, you may find components like:
+- SRAM
+- SoC Blocks
+- ADC, DAC
+- SPI
+
+These are often provided as **Foundry IPs** — pre-designed blocks offered by the fabrication facility.
+
+Foundries use advanced processes such as **deposition**, **etching**, and **photolithography** to turn circuit designs into physical chips.
+
+<img width="725" height="400" alt="Screenshot 2025-07-17 144340" src="https://github.com/user-attachments/assets/a310e062-215c-454a-8a32-ce07ad860481" />
+
+
+---
+
+### 🔸 Introduction to RISC-V
+
+**RISC-V** (pronounced “risk-five”) is an open and free-to-use Instruction Set Architecture (ISA) that originated at the **University of California, Berkeley**. The “V” in RISC-V stands for the **fifth generation** of RISC design.
+
+It is gaining popularity due to several advantages:
+- ✅ Completely open-source — no licensing costs
+- ✅ Modular — supports custom extensions
+- ✅ Scalable — available in 32-bit, 64-bit, and even experimental 128-bit versions
+- ✅ Backed by both academia and industry
+
+Physically, the **die** inside a chip is connected to the external pins using **bond wires**. These wires serve as bridges between the internal circuits and the outside world.
+
+<img width="721" height="401" alt="Screenshot 2025-07-17 144900" src="https://github.com/user-attachments/assets/bb78d8a2-b800-4555-8664-68cf636af731" />
+
+
+---
+
+### 🔸 From Software Applications to Hardware
+
+Ever wondered how apps like WhatsApp, Instagram, or games work at a hardware level? Let’s break it down.
+
+All application software runs on top of system software, which then interacts with the hardware chip. So, the full stack looks like this:  
+**Application Software → System Software → Hardware Chip**
+
+Here’s what each part does:
+
+- **Operating System (OS)**: Manages memory, I/O devices, and processes.
+- **Compiler**: Converts high-level programming languages like C/C++ into low-level machine instructions.
+- **Assembler**: Further translates those instructions into binary — the 0s and 1s understood by hardware.
+
+These binary instructions are what ultimately communicate with the chip to make software work on physical devices.
+
+<img width="886" height="495" alt="Screenshot 2025-07-17 145151" src="https://github.com/user-attachments/assets/90edbf10-f7c6-4487-af4e-604f6378afa3" />
+
