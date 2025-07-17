@@ -219,6 +219,9 @@ These binary instructions are what ultimately communicate with the chip to make 
 
 ### 🔸 SoC Design and OpenLANE
 
+#### Introduction to all components of open-source digital asic design
+
+
 To design a digital ASIC, a few essential components and tools are needed right from the beginning:
 
 - **RTL Design**
@@ -259,7 +262,7 @@ Examples:
 
 ---
 
-###  Simplified RTL to GDSII Flow
+###  Simplified RTL2GDS flow
 
 <img width="891" height="497" alt="Screenshot 2025-07-17 145305" src="https://github.com/user-attachments/assets/bd987826-1a5a-4d51-9320-bc3d2420b9b3" />
 
@@ -431,7 +434,7 @@ Now we are ready to execute our first command.
 
 ---
 
-### 📂 Design Folder Overview
+### Review files after design prep and run synthesis
 
 Inside the OpenLANE `designs` directory, we have access to 30–40 pre-built designs. For this workshop, we use the design named `picorv32a`. Upon entering the `picorv32a` folder, you will find several files, including scripts and configuration files like `config.tcl`.
 
@@ -498,7 +501,7 @@ This step typically takes 3–4 minutes to complete. Once complete, the flow has
 
 ---
 
-### 📊 Steps to Characterize Synthesis Results
+###  Steps to Characterize Synthesis Results
 
 After synthesis is complete, you can review the following:
 
