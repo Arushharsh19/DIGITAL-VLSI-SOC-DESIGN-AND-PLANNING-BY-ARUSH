@@ -1,4 +1,4 @@
-<img width="954" height="1013" alt="Screenshot 2025-07-17 152024" src="https://github.com/user-attachments/assets/801a396f-6f3f-4791-b66b-fd536308a36c" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 ### RTL to GDSII Workshop using Open-Source Tools (Sky130)
 
 ## 📝 Introduction
@@ -268,7 +268,6 @@ Examples:
 #### Step 1: Synthesis
 Converts RTL to gate-level netlist using standard cell libraries. Output is functionally equivalent to RTL.
 
-<img width="452" height="203" alt="Screenshot 2025-07-17 145419" src="https://github.com/user-attachments/assets/ba75e295-dddb-4427-955d-dae4eff46863" />
 
 
 #### Step 2: Floor / Power Planning
