@@ -214,7 +214,6 @@ These binary instructions are what ultimately communicate with the chip to make 
 
 <img width="886" height="495" alt="Screenshot 2025-07-17 145151" src="https://github.com/user-attachments/assets/90edbf10-f7c6-4487-af4e-604f6378afa3" />
 
-## 📅 Day 1: Inception of Open-Source EDA, OpenLANE and Sky130 PDK
 
 ---
 
