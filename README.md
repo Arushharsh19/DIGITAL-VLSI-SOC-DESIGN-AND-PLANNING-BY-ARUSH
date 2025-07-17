@@ -390,7 +390,7 @@ Uses `DEF2SPEF` to extract RC data from routed layout and runs **STA** using Ope
 
 ### 🔸 Get Familiar with Open-Source EDA Tools
 
-####  OpenLANE Directory Structure & Linux Basics
+####  OpenLANE Directory structure in detail
 
 Useful commands:
 - `cd` – Change directory
