@@ -1,64 +1,12 @@
-# Ignore temporary files
-*.log
-*.vcd
-*.svf
-*.out
-*.bin
-*.hex
-*.lxt
-*.vvp
-*.bak
-*.orig
+# OS Files
+.DS_Store
+
+# Editor files
 *.swp
 *.swo
+.vscode/
 
-# GTKWave waveform dumps
-*.gtkw
-
-# ModelSim/QuestaSim
-transcript
-vsim.wlf
-work/
-
-# Xilinx
-xsim.dir/
-*.jou
-*.pb
-*.str
-*.xml
-*.cache/
-*.runs/
-*.sim/
-*.webtalk/
-
-# Intel Quartus
-db/
-incremental_db/
-output_files/
-*.rpt
-*.qpf
-*.qsf
-*.sopcinfo
-
-# OpenLANE / Sky130 PDK output
-runs/
-results/
-tmp/
-logs/
-
-# Vivado
+# Build and log files
 *.log
-*.jou
-*.hw
-*.webtalk
-*.xpr
-*.cache
-*.data
-*.runs
-*.sim
-*.srcs
-*.ip_user_files
-
-# Generated folders
+build/
 __pycache__/
-*.pyc
