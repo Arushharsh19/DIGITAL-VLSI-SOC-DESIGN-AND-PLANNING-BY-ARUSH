@@ -10,7 +10,7 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
 
 ## 📅 Day 1: Inception of Open-Source EDA, OpenLANE and Sky130 PDK
 
-- [🔸 How to talk to computers](#how-to-talk-to-computers)
+- [🔸 How to talk to computers](#how-to-talk-to-computers-?)
   - [Introduction to QFN-48 Package, chip, pads, core, die and IPs](#introduction-to-qfn-48-package-chip-pads-core-die-and-ips)
   - [Introduction to RISC-V](#introduction-to-risc-v)
   - [From Software Applications to Hardware](#from-software-applications-to-hardware)
