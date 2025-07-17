@@ -157,7 +157,7 @@ Arduino, as a platform, includes both:
 
 ---
 
-### 🧩 Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs
+### Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs
 
 A modern chip, especially something like a microcontroller or a processor, is typically packaged in formats such as **QFN-48 (Quad Flat No-lead)**. Inside such a chip package, there are several components:
 
@@ -180,7 +180,7 @@ Foundries use advanced processes such as **deposition**, **etching**, and **phot
 
 ---
 
-### 🔸 Introduction to RISC-V
+###  Introduction to RISC-V
 
 **RISC-V** (pronounced “risk-five”) is an open and free-to-use Instruction Set Architecture (ISA) that originated at the **University of California, Berkeley**. The “V” in RISC-V stands for the **fifth generation** of RISC design.
 
@@ -197,7 +197,7 @@ Physically, the **die** inside a chip is connected to the external pins using **
 
 ---
 
-### 🔸 From Software Applications to Hardware
+###  From Software Applications to Hardware
 
 Ever wondered how apps like WhatsApp, Instagram, or games work at a hardware level? Let’s break it down.
 
@@ -259,7 +259,7 @@ Examples:
 
 ---
 
-### 🔁 Simplified RTL to GDSII Flow
+###  Simplified RTL to GDSII Flow
 
 <img width="891" height="497" alt="Screenshot 2025-07-17 145305" src="https://github.com/user-attachments/assets/bd987826-1a5a-4d51-9320-bc3d2420b9b3" />
 
