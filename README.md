@@ -749,7 +749,8 @@ Once the floorplan is generated, you can inspect the configuration and layout us
 
 - Open `config.tcl` to see which parameters were actually used in the flow.
   - This includes core utilization, aspect ratio, PDN settings, pin modes, etc.
-![Uploading Screenshot 2025-07-17 195019.png…]()
+<img width="957" height="1019" alt="Screenshot 2025-07-17 195019" src="https://github.com/user-attachments/assets/ed9d6193-eac7-4a69-ac20-4a8c8598dfca" />
+
 
 
 To view the physical floorplan, navigate to:
