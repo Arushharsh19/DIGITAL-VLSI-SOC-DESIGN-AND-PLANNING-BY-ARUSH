@@ -10,24 +10,24 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
 
 ## 📅 Day 1: Inception of Open-Source EDA, OpenLANE and Sky130 PDK
 
-- 🔸 [How to Talk to Computers](#how-to-talk-to-computers?)
-  - [Introduction to QFN-48 Package, Chip, Pads, Core, Die, and IPs](#introduction-to-qfn-48-package-chip-pads-core-die-and-ips)
+
+- 🔸 [How to Talk to Computers](#how-to-talk-to-computers)
+  - [Introduction to QFN-48 Package, chip, pads, core, die and IPs](#introduction-to-qfn-48-package-chip-pads-core-die-and-ips)
   - [Introduction to RISC-V](#introduction-to-risc-v)
   - [From Software Applications to Hardware](#from-software-applications-to-hardware)
 
 - 🔸 [SoC Design and OpenLANE](#soc-design-and-openlane)
-  - [Introduction to all components of open source digital asic design](#introduction-to-all-components-of-open-source-digital-asic-design)
-  - [Simplified RTL to GDSII Flow](#simplified-rtl-to-gdsii-flow)
-  - [Introduction to OpenLANE and striVe Chipsets](#introduction-to-openlane-and-strive-chipsets)
-  - [Introduction to OpenLANE Detailed ASIC Design Flow](#introduction-to-openlane-detailed-asic-design-flow)
+  - [Introduction to all components of open-source digital ASIC design](#introduction-to-all-components-of-open-source-digital-asic-design)
+  - [Simplified RTL2GDS flow](#simplified-rtl2gds-flow)
+  - [Introduction to OpenLANE and Strive chipsets](#introduction-to-openlane-and-strive-chipsets)
+  - [Introduction to OpenLANE detailed ASIC design flow](#introduction-to-openlane-detailed-asic-design-flow)
 
 - 🔸 [Get Familiar with Open-Source EDA Tools](#get-familiar-with-open-source-eda-tools)
-  - [OpenLANE Directory Structure & Linux Basics](#openlane-directory-structure--linux-basics)
-  - [Design Preparation Step](#design-preparation-step-1)
-  - [Files Generated After Design Prep](#files-generated-after-design-prep)
-  - [Running Synthesis](#running-synthesis)
-  - [Steps to Characterize Synthesis Results](#steps-to-characterize-synthesis-results)
-
+  - [OpenLANE Directory structure in detail](#openlane-directory-structure-in-detail)
+  - [Design Preparation Step](#design-preparation-step)
+  - [Review files after design prep and run synthesis](#review-files-after-design-prep-and-run-synthesis)
+  - [OpenLANE Project Git Link Description](#openlane-project-git-link-description)
+  - [Steps to characterize synthesis results](#steps-to-characterize-synthesis-results)
 
 ---
 
