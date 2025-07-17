@@ -544,11 +544,12 @@ During chip design, floorplanning is a critical step that defines how various bl
 
 - **Utilization Factor** determines how efficiently the available core area is used.
   <img width="249" height="212" alt="Screenshot 2025-07-17 193633" src="https://github.com/user-attachments/assets/8c967b4c-8047-423a-9498-8c5016dba176" />
+  
 <img width="349" height="307" alt="Screenshot 2025-07-17 193651" src="https://github.com/user-attachments/assets/3b76d3e3-0d9c-4093-850f-848cc60eeffb" />
 
-  \[
-  \text{Utilization Factor} = \frac{\text{Area of Standard Cells}}{\text{Core Area}}
-  \]
+  
+  Utilization Factor = Area of Standard Cells/Core Area
+  
 <img width="528" height="309" alt="Screenshot 2025-07-17 193727" src="https://github.com/user-attachments/assets/fd51c0c6-61aa-435c-bd9f-ef677165a48f" />
 
   - A **high utilization factor** can lead to **routing congestion** due to lack of space for interconnects.
