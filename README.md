@@ -1,4 +1,4 @@
-<img width="882" height="497" alt="Screenshot 2025-07-17 202636" src="https://github.com/user-attachments/assets/18848346-a449-4e25-86e2-7af284be72cf" /><img width="762" height="420" alt="Screenshot 2025-07-17 202238" src="https://github.com/user-attachments/assets/84ca8f76-14fc-4b26-b711-c67c3628272b" /><img width="961" height="1014" alt="Screenshot 2025-07-17 200327" src="https://github.com/user-attachments/assets/76e05d0f-77a6-4358-8cb5-2916f907e443" /><img width="560" height="491" alt="Screenshot 2025-07-17 194319" src="https://github.com/user-attachments/assets/6f360892-a764-4bc4-9e07-6255b4425f18" /><img width="886" height="498" alt="Screenshot 2025-07-17 194007" src="https://github.com/user-attachments/assets/dc8cfb1c-f96d-461a-936e-00389bf174da" /><img width="249" height="212" alt="Screenshot 2025-07-17 193633" src="https://github.com/user-attachments/assets/5ebd4ef5-449b-46e7-a835-62d96ebf239b" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 ### RTL to GDSII Workshop using Open-Source Tools (Sky130)
 
 ## 📝 Introduction
