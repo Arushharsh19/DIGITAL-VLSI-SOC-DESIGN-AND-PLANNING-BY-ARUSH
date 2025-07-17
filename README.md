@@ -1,4 +1,4 @@
-# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+<img width="954" height="1013" alt="Screenshot 2025-07-17 152024" src="https://github.com/user-attachments/assets/801a396f-6f3f-4791-b66b-fd536308a36c" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 ### RTL to GDSII Workshop using Open-Source Tools (Sky130)
 
 ## 📝 Introduction
@@ -214,3 +214,320 @@ These binary instructions are what ultimately communicate with the chip to make 
 
 <img width="886" height="495" alt="Screenshot 2025-07-17 145151" src="https://github.com/user-attachments/assets/90edbf10-f7c6-4487-af4e-604f6378afa3" />
 
+## 📅 Day 1: Inception of Open-Source EDA, OpenLANE and Sky130 PDK
+
+---
+
+### 🔸 SoC Design and OpenLANE
+
+To design a digital ASIC, a few essential components and tools are needed right from the beginning:
+
+- **RTL Design**
+- **EDA Tools**
+- **PDK Data**
+
+#### 💡 What is RTL Design?
+
+Register-Transfer Level (RTL) is a design abstraction used to model synchronous digital circuits in terms of data flow between hardware registers and the logic performed on that data.
+
+Popular open-source RTL design sources include:
+- [librecores.org](https://librecores.org)
+- [opencores.org](https://opencores.org)
+- GitHub repositories
+
+#### 🧰 What are EDA Tools?
+
+Electronic Design Automation (EDA) refers to tools used for the design and verification of ICs, PCBs, and electronic systems.
+
+Some open-source EDA tools are:
+- Qflow
+- OpenROAD
+- OpenLANE
+
+#### 🧪 What is PDK Data?
+
+PDK (Process Design Kit) is the interface between the fabrication facility (FAB) and the designer. It includes:
+
+- Design rules (DRC, LVS, REX)
+- Standard cell libraries
+- I/O libraries, etc.
+
+In 2020, Google released an open-source 130nm PDK with SkyWater Technology — suitable for many applications that don’t require advanced nodes (e.g., 5nm). 130nm processors remain performant and cost-effective.
+
+Examples:
+- Intel P4EE @3.46 GHz (Q4'04)
+- sky130_OSU RV32i (pipeline version) > 1GHz
+
+---
+
+### 🔁 Simplified RTL to GDSII Flow
+
+<img width="891" height="497" alt="Screenshot 2025-07-17 145305" src="https://github.com/user-attachments/assets/bd987826-1a5a-4d51-9320-bc3d2420b9b3" />
+
+
+#### Step 1: Synthesis
+Converts RTL to gate-level netlist using standard cell libraries. Output is functionally equivalent to RTL.
+
+<img width="452" height="203" alt="Screenshot 2025-07-17 145419" src="https://github.com/user-attachments/assets/ba75e295-dddb-4427-955d-dae4eff46863" />
+
+
+#### Step 2: Floor / Power Planning
+Defines chip area, partitions blocks, and builds a power network with vertical and horizontal metal strips. Uses thicker upper metal layers to reduce resistance and combat electromigration.
+
+<img width="452" height="203" alt="Screenshot 2025-07-17 145419" src="https://github.com/user-attachments/assets/a9fe4eef-2d09-425d-85eb-4dafe0a6d1ad" />
+<img width="537" height="144" alt="Screenshot 2025-07-17 145443" src="https://github.com/user-attachments/assets/c85b8443-a7e5-480e-8ba2-4694c1006826" />
+
+
+
+#### Step 3: Placement
+Places netlist cells on defined chip rows.
+
+- **Global Placement**: Initial rough placement optimizing congestion and timing.
+- **Detailed Placement**: Precise cell positioning with constraints.
+
+<img width="530" height="201" alt="Screenshot 2025-07-17 145511" src="https://github.com/user-attachments/assets/f507528b-ebe3-476e-b783-feddbbd3b4af" />
+
+
+#### Step 4: Clock Tree Synthesis (CTS)
+Routes the clock to every sequential element like flip-flops and registers. Clock networks are typically in tree shapes (H-tree, X-tree) to reduce skew.
+
+
+<img width="169" height="134" alt="Screenshot 2025-07-17 145526" src="https://github.com/user-attachments/assets/bb200645-1f06-4ef8-8b45-1c44f7b639cf" />
+
+#### Step 5: Signal Routing
+Physically connects signal pins using 6 metal layers defined by the Sky130 PDK.
+
+Types:
+- Global Routing
+- Detailed Routing
+
+<img width="506" height="194" alt="Screenshot 2025-07-17 145546" src="https://github.com/user-attachments/assets/1554872d-e5ee-44df-8d62-afc9f3d16779" />
+
+
+#### Step 6: Sign-Off
+Includes final verification steps:
+
+- **Physical Verification** (DRC, LVS)
+- **Timing Verification** (Static Timing Analysis)
+
+---
+
+### 🔸 Introduction to OpenLANE and striVe Chipsets
+
+**OpenLANE** is an automated RTL to GDSII flow that integrates multiple tools like:
+- OpenROAD
+- Yosys
+- Magic
+- Netgen
+- Klayout, etc.
+
+It aims to produce **clean GDSII output** with:
+- ❌ No LVS violations
+- ❌ No DRC violations
+- ❌ No timing violations
+
+🧪 Modes:
+- **Autonomous**: Push-button full flow
+- **Interactive**: Step-by-step manual control
+
+**striVe** is a family of fully open-source SoCs including:
+- Open PDK
+- Open EDA
+- Open RTL
+
+<img width="837" height="466" alt="Screenshot 2025-07-17 145732" src="https://github.com/user-attachments/assets/b1fcfdca-a2b1-4693-a44f-108d70315ef8" />
+
+
+---
+
+### 🔸 Introduction to OpenLANE Detailed ASIC Design Flow
+
+OpenLANE supports over 43 design examples. It also supports:
+
+- DFT (Design for Test)
+- Scan insertion
+- Fault simulation
+- Physical Implementation using OpenROAD
+
+Steps include:
+- Floor/Power Planning
+- Tap Cell and Decap insertion
+- Placement (Global and Detailed)
+- CTS
+- Routing
+- Post-placement optimization
+  
+<img width="857" height="476" alt="Screenshot 2025-07-17 145947" src="https://github.com/user-attachments/assets/d46d02ad-3435-425f-8e30-66468daf0232" />
+
+Every netlist modification step is followed by **functional verification using LCE (Yosys)**.
+
+#### ⚠️ Dealing with Antenna Rule Violations
+
+Wires can act like antennas and damage gates. Solutions:
+1. **Bridging**: Connects to higher metal layer
+2. **Antenna Diode Cells**: Leaks away charge
+
+<img width="411" height="206" alt="Screenshot 2025-07-17 150017" src="https://github.com/user-attachments/assets/b2cdf3cb-de08-4cb4-b40b-25d299888814" />
+
+
+In OpenLANE, **fake antenna diodes** are added first and replaced with real ones if needed after violation checking.
+
+<img width="543" height="206" alt="Screenshot 2025-07-17 150030" src="https://github.com/user-attachments/assets/415b9052-1a0c-4e82-84a3-a7152c4c956a" />
+<img width="256" height="199" alt="Screenshot 2025-07-17 150047" src="https://github.com/user-attachments/assets/925dc622-12df-4631-aff4-b83e9eca1645" />
+
+
+#### ⏱️ Static Timing Analysis (STA)
+
+Uses `DEF2SPEF` to extract RC data from routed layout and runs **STA** using OpenSTA (OpenROAD).
+
+#### 🧪 Physical Verification
+
+- **DRC**: Checked using Magic
+- **LVS**: Done via Magic + Netgen
+
+---
+
+### 🔸 Get Familiar with Open-Source EDA Tools
+
+#### 📁 OpenLANE Directory Structure & Linux Basics
+
+Useful commands:
+- `cd` – Change directory
+- `ls` – List files
+- `pwd` – Show working directory
+- `mkdir` – Create new directory
+- `command --help` – Help menu
+- `clear` – Clear screen
+
+We are using:  
+**sky130_fd_sc_hd**  
+- `sky130`: Process node  
+- `fd`: Foundry  
+- `sc`: Standard Cell  
+- `hd`: High Density
+
+This variant includes:
+- verilog, spice, techlef, meglef, mag, gds, cdl, lib, lef, etc.
+
+---
+
+### 🔧 Design Preparation Step
+
+In OpenLANE, we use the `flow.tcl` script. Running with `-interactive` allows step-by-step execution.
+
+<img width="954" height="925" alt="Screenshot 2025-07-17 152021" src="https://github.com/user-attachments/assets/0e81fc19-d1a5-4b23-886b-9c9a940e565a" />
+
+
+### 🛠️ Design Preparation Step
+
+Once inside the OpenLANE environment, the flow is controlled using the `flow.tcl` script. This script automates the entire ASIC design process. By using the `-interactive` switch, we can perform each stage manually, allowing more control and understanding. Without the `-interactive` switch, OpenLANE will execute the complete RTL to GDSII flow in one go.
+
+Once OpenLANE is launched interactively, the prompt changes to indicate that we are now inside the OpenLANE shell.
+
+
+
+Next, we load all the required packages necessary to run the OpenLANE flow.
+
+<img width="954" height="1013" alt="Screenshot 2025-07-17 152024" src="https://github.com/user-attachments/assets/d06ccbd6-6749-497e-87a6-58c8438dcdbd" />
+
+Now we are ready to execute our first command.
+
+---
+
+### 📂 Design Folder Overview
+
+Inside the OpenLANE `designs` directory, we have access to 30–40 pre-built designs. For this workshop, we use the design named `picorv32a`. Upon entering the `picorv32a` folder, you will find several files, including scripts and configuration files like `config.tcl`.
+
+The `config.tcl` file defines important design parameters such as clock period, I/O configurations, and design constraints.
+
+<img width="955" height="1013" alt="Screenshot 2025-07-17 151953" src="https://github.com/user-attachments/assets/cd0f42c7-9c87-495f-a1a9-ce2ba40db977" />
+
+
+In this example, the time period is set to `5.00 ns` in the `config.tcl` file. However, in the global configuration (`sky130_fd_sc_hd`), it may be set to `24 ns`. If both exist, the local `config.tcl` takes priority, overriding the global setting.
+
+---
+
+### ⚙️ Preparing the Design for Flow
+
+Before synthesis, we must prepare the design using the following command:
+
+```tcl
+prep -design picorv32a
+```
+<img width="948" height="1012" alt="Screenshot 2025-07-17 152132" src="https://github.com/user-attachments/assets/1011415c-727f-4241-a43c-b00ee356f17a" />
+
+This sets up the environment for the selected design.
+
+Once preparation is complete, a `runs` directory is created under `picorv32a`, timestamped with the current date. This directory contains several subfolders used throughout the design flow.
+
+<img width="956" height="1016" alt="Screenshot 2025-07-17 152332" src="https://github.com/user-attachments/assets/4b3a897c-61a3-4d76-9c63-e7c63ff5fb7e" />
+
+
+---
+
+### 📁 Files Generated After Design Prep
+
+Inside the `temp` folder, a file named `merged.lef` is generated. It includes wiring, layer-level, and cell-level information.
+<img width="961" height="1014" alt="Screenshot 2025-07-17 152439" src="https://github.com/user-attachments/assets/5c3db019-56ab-40e2-a3dd-2a37131dd061" />
+
+The `results` folder is initially empty, as no stages have been executed yet.
+
+The `reports` folder contains predefined directories for:
+- Synthesis
+- Placement
+- Floorplanning
+- CTS
+- Routing
+- Magic
+- LVS
+
+A new `config.tcl` is also generated here, containing the default parameters taken by the flow. Changes made to the original config file will reflect here once we rerun specific stages.
+
+> 🔄 Example: If you modify the `core_utilization` parameter before floorplanning and re-execute that step, the changes will be reflected in the new `config.tcl` file.
+
+---
+
+### 🔧 Running Synthesis
+
+To perform synthesis, run:
+
+```tcl
+run_synthesis
+```
+<img width="956" height="1017" alt="Screenshot 2025-07-17 152529" src="https://github.com/user-attachments/assets/569d2833-1b98-4392-8c8c-5569ff0bfc31" />
+
+This step typically takes 3–4 minutes to complete. Once complete, the flow has performed logic optimization and technology mapping.
+<img width="958" height="1013" alt="Screenshot 2025-07-17 152605" src="https://github.com/user-attachments/assets/7bc34a23-4656-4c2d-9c29-0e993b804020" />
+
+---
+
+### 📊 Steps to Characterize Synthesis Results
+
+After synthesis is complete, you can review the following:
+
+- **Number of D flip-flops**: 1613  
+- **Total number of cells**: 14,876  
+<img width="953" height="1017" alt="Screenshot 2025-07-17 153034" src="https://github.com/user-attachments/assets/9874eb2c-1270-42fe-a17e-9771fb8201e1" />
+
+The **Flop Ratio** is calculated as:
+
+```text
+Flop Ratio = (Number of Flip-Flops) / (Total Number of Cells)
+           = 1613 / 14876
+           = 10.84%
+```
+
+Before synthesis, the `results` folder was empty. Now it contains all mapping data generated by **ABC** (AIG-based logic synthesis and optimization tool).
+<img width="953" height="1019" alt="Screenshot 2025-07-17 152924" src="https://github.com/user-attachments/assets/3384db63-3502-4710-b8de-34ca290bbaa3" />
+
+Inside the `reports/synthesis` folder, you will find detailed statistics and logs indicating:
+
+- Exact timing
+- Logic utilization
+- Cell statistics
+- Resource usage
+<img width="961" height="1019" alt="Screenshot 2025-07-17 153236" src="https://github.com/user-attachments/assets/49a47d34-dcf5-4b11-8135-ac3440d53a02" />
+
+These match the figures we've just reviewed.
+
+---
