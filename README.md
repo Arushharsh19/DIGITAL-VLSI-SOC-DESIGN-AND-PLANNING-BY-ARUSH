@@ -531,3 +531,218 @@ Inside the `reports/synthesis` folder, you will find detailed statistics and log
 These match the figures we've just reviewed.
 
 ---
+
+## 📅 Day 2: Good Floorplanning Considerations
+
+### Chip Floorplanning Consideration
+
+During chip design, floorplanning is a critical step that defines how various blocks (standard cells, macros, IOs) are arranged within the chip die. A good floorplan minimizes area, reduces delay, and avoids routing congestion.
+
+#### Utilization Factor and Aspect Ratio
+
+- **Utilization Factor** determines how efficiently the available core area is used.
+  
+  \[
+  \text{Utilization Factor} = \frac{\text{Area of Standard Cells}}{\text{Core Area}}
+  \]
+
+  - A **high utilization factor** can lead to **routing congestion** due to lack of space for interconnects.
+  - A **low utilization factor** wastes silicon area, increasing chip cost.
+
+- **Aspect Ratio** is the ratio of height to width of the die or core area. An ideal aspect ratio is **close to 1**, which helps in achieving uniform routing and optimal performance.
+
+---
+
+### Concept of Pre-Placed Cells
+
+Before the standard cells are placed, certain elements must be **pre-placed** in the design:
+
+- **IO Pins**: Placed along the periphery to interface with external components.
+- **Macros**: Large functional blocks like memory, PLLs, etc.
+- **Power Switches**: Control power gating and distribution.
+
+These components are placed first to reserve fixed areas and guide the standard cell placement later.
+
+---
+
+### Decoupling Capacitors (Decaps)
+
+- **Purpose**: To reduce power supply noise and voltage fluctuations.
+- **Placement**: Typically located near **macros or sensitive circuits** to ensure stable power delivery.
+- **Functionality**: Act as local charge reservoirs, absorbing noise from sudden switching activities.
+
+---
+
+### Power Planning
+
+Power planning ensures every part of the chip receives reliable power:
+
+- Involves designing **power rings**, **straps**, and **rails**.
+- Distributes **VDD** and **GND** throughout the chip uniformly.
+- Must be completed before placement to guide standard cell positioning around power resources.
+
+---
+
+### Pin Placement and Logical Cell Placement Blockage
+
+- **IO Pins**: Positioned at the periphery of the die for external connectivity.
+- **Placement Blockages**: Defined to reserve regions where standard cells **should not** be placed.
+
+This helps in:
+- Avoiding placement near macros.
+- Controlling congestion in sensitive areas.
+
+---
+
+### Steps to Run Floorplan using OpenLANE
+
+To initiate floorplanning in OpenLANE, use:
+
+```bash
+run_floorplan
+```
+
+This command runs a sequence of TCL scripts:
+- `floorplan.tcl` — for core area and IO definition.
+- `pdn.tcl` — to define and create the power delivery network.
+- `tapcell.tcl` — to insert tapcells for well ties and body biasing.
+
+---
+
+### Review Floorplan Files and Steps to View Floorplan
+
+#### Output Directory
+
+After floorplan execution, results are stored in:
+
+```bash
+runs/<design_name>/results/floorplan/
+```
+
+Key files include:
+- `.def`: Design Exchange Format (contains physical design info).
+- `.lef`: Library Exchange Format (macro definitions and routing layers).
+
+#### Visualizing in Magic Layout Tool
+
+To open the floorplan in Magic:
+
+```bash
+magic -T sky130A.tech runs/<design_name>/results/floorplan/<design_name>.mag
+```
+
+Inside Magic:
+- `:load <design_name>` — Loads the design.
+- `Ctrl + Middle Click` — Zoom in/out.
+- `:select` and `:identify` — Inspect components.
+
+---
+
+### Library Building and Placement
+
+#### Netlist Binding and Initial Placement
+
+- **Netlist Binding**: Maps logical netlist to standard cell instances from the physical library.
+- **Initial Placement**: Cells are spread to minimize wirelength while maintaining legal positions.
+
+---
+
+### Optimize Placement Using Estimated Wirelength and Capacitance
+
+During placement:
+- Tools estimate **wirelength** and **capacitance**.
+- Placement engine optimizes cell locations to **reduce parasitic delays** and **routing congestion**.
+
+---
+
+### Final Placement Optimization
+
+After initial placement:
+- Tools like **RePlAce** are used for **legalization** and **timing-aware optimization**.
+- Ensures improvements in:
+  - Total wirelength
+  - Cell density distribution
+  - Routing congestion
+
+---
+
+### Need for Libraries and Characterization
+
+Standard cell libraries are vital for the PnR process.
+
+- Each cell is **characterized** for:
+  - Timing (delay, setup/hold)
+  - Power consumption
+  - Physical area
+
+- Characterization is typically done using **SPICE simulations**, and results are stored in `.lib` files.
+
+---
+
+### Congestion-Aware Placement Using RePlAce
+
+**RePlAce** is an open-source tool integrated with OpenLANE for optimized placement.
+
+It considers:
+- **Routing congestion**
+- **Cell utilization**
+- **Wirelength**
+
+Resulting in a balanced and legal layout ready for routing.
+
+---
+
+### Cell Design and Characterization Flows
+
+#### Inputs for Cell Design Flow
+
+Includes specifications such as:
+- Functionality
+- Fanout
+- Drive strength
+- Voltage levels
+
+#### Circuit Design Steps
+
+- **Schematic Capture**: Done using tools like **Xschem**.
+- **Simulation**: Performed using **Ngspice** to validate circuit behavior.
+
+---
+
+### Layout Design Step
+
+- **Tool Used**: Magic Layout.
+- Layout includes layers like:
+  - Diffusion (active area)
+  - Polysilicon (gate)
+  - Metal layers (interconnects)
+
+Ensures physical rule compliance for fabrication.
+
+---
+
+### Typical Characterization Flow
+
+1. Create **SPICE netlist** of the cell.
+2. Build testbenches for simulating input-output behavior.
+3. Simulate and extract:
+   - Delay
+   - Power
+   - Slew rate
+4. Generate `.lib` files for use in timing analysis tools.
+
+---
+
+### General Timing Characterization Parameters
+
+#### Timing Threshold Definitions
+
+- Defines at what voltage level timing is measured.
+- Common thresholds:
+  - **50% VDD** for propagation delay.
+  - **10%–90%** or **20%–80%** ranges for rise/fall times.
+
+#### Propagation Delay and Transition Time
+
+- **Propagation Delay**: Time for signal to move from input to output.
+- **Transition Time (Slew)**: Time for signal to transition between logic states (low to high or high to low).
