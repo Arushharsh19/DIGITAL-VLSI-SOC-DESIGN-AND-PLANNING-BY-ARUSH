@@ -310,7 +310,7 @@ Includes final verification steps:
 
 ---
 
-### 🔸 Introduction to OpenLANE and striVe Chipsets
+###  Introduction to OpenLANE and striVe Chipsets
 
 **OpenLANE** is an automated RTL to GDSII flow that integrates multiple tools like:
 - OpenROAD
@@ -338,7 +338,7 @@ It aims to produce **clean GDSII output** with:
 
 ---
 
-### 🔸 Introduction to OpenLANE Detailed ASIC Design Flow
+###  Introduction to OpenLANE Detailed ASIC Design Flow
 
 OpenLANE supports over 43 design examples. It also supports:
 
@@ -387,7 +387,7 @@ Uses `DEF2SPEF` to extract RC data from routed layout and runs **STA** using Ope
 
 ### 🔸 Get Familiar with Open-Source EDA Tools
 
-#### 📁 OpenLANE Directory Structure & Linux Basics
+####  OpenLANE Directory Structure & Linux Basics
 
 Useful commands:
 - `cd` – Change directory
@@ -409,14 +409,13 @@ This variant includes:
 
 ---
 
-### 🔧 Design Preparation Step
+###  Design Preparation Step
 
 In OpenLANE, we use the `flow.tcl` script. Running with `-interactive` allows step-by-step execution.
 
 <img width="954" height="925" alt="Screenshot 2025-07-17 152021" src="https://github.com/user-attachments/assets/0e81fc19-d1a5-4b23-886b-9c9a940e565a" />
 
 
-### 🛠️ Design Preparation Step
 
 Once inside the OpenLANE environment, the flow is controlled using the `flow.tcl` script. This script automates the entire ASIC design process. By using the `-interactive` switch, we can perform each stage manually, allowing more control and understanding. Without the `-interactive` switch, OpenLANE will execute the complete RTL to GDSII flow in one go.
 
