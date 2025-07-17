@@ -1,4 +1,4 @@
-# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+<img width="882" height="497" alt="Screenshot 2025-07-17 202636" src="https://github.com/user-attachments/assets/18848346-a449-4e25-86e2-7af284be72cf" /><img width="762" height="420" alt="Screenshot 2025-07-17 202238" src="https://github.com/user-attachments/assets/84ca8f76-14fc-4b26-b711-c67c3628272b" /><img width="961" height="1014" alt="Screenshot 2025-07-17 200327" src="https://github.com/user-attachments/assets/76e05d0f-77a6-4358-8cb5-2916f907e443" /><img width="560" height="491" alt="Screenshot 2025-07-17 194319" src="https://github.com/user-attachments/assets/6f360892-a764-4bc4-9e07-6255b4425f18" /><img width="886" height="498" alt="Screenshot 2025-07-17 194007" src="https://github.com/user-attachments/assets/dc8cfb1c-f96d-461a-936e-00389bf174da" /><img width="249" height="212" alt="Screenshot 2025-07-17 193633" src="https://github.com/user-attachments/assets/5ebd4ef5-449b-46e7-a835-62d96ebf239b" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 ### RTL to GDSII Workshop using Open-Source Tools (Sky130)
 
 ## 📝 Introduction
@@ -537,23 +537,31 @@ These match the figures we've just reviewed.
 ### Chip Floorplanning Consideration
 
 During chip design, floorplanning is a critical step that defines how various blocks (standard cells, macros, IOs) are arranged within the chip die. A good floorplan minimizes area, reduces delay, and avoids routing congestion.
+<img width="889" height="491" alt="Screenshot 2025-07-17 193615" src="https://github.com/user-attachments/assets/283c7f85-7b92-4f63-bcf3-95f96b7abf76" />
+
 
 #### Utilization Factor and Aspect Ratio
 
 - **Utilization Factor** determines how efficiently the available core area is used.
-  
+  <img width="249" height="212" alt="Screenshot 2025-07-17 193633" src="https://github.com/user-attachments/assets/8c967b4c-8047-423a-9498-8c5016dba176" />
+<img width="349" height="307" alt="Screenshot 2025-07-17 193651" src="https://github.com/user-attachments/assets/3b76d3e3-0d9c-4093-850f-848cc60eeffb" />
+
   \[
   \text{Utilization Factor} = \frac{\text{Area of Standard Cells}}{\text{Core Area}}
   \]
+<img width="528" height="309" alt="Screenshot 2025-07-17 193727" src="https://github.com/user-attachments/assets/fd51c0c6-61aa-435c-bd9f-ef677165a48f" />
 
   - A **high utilization factor** can lead to **routing congestion** due to lack of space for interconnects.
   - A **low utilization factor** wastes silicon area, increasing chip cost.
 
 - **Aspect Ratio** is the ratio of height to width of the die or core area. An ideal aspect ratio is **close to 1**, which helps in achieving uniform routing and optimal performance.
+<img width="889" height="502" alt="Screenshot 2025-07-17 193846" src="https://github.com/user-attachments/assets/0e4a3fa9-7e77-4f51-b269-85428a764fbc" />
 
 ---
 
 ### Concept of Pre-Placed Cells
+
+<img width="890" height="496" alt="Screenshot 2025-07-17 193901" src="https://github.com/user-attachments/assets/54de3df8-cec6-4aa7-ad70-cd06350fdb5d" />
 
 Before the standard cells are placed, certain elements must be **pre-placed** in the design:
 
@@ -562,187 +570,462 @@ Before the standard cells are placed, certain elements must be **pre-placed** in
 - **Power Switches**: Control power gating and distribution.
 
 These components are placed first to reserve fixed areas and guide the standard cell placement later.
+<img width="887" height="505" alt="Screenshot 2025-07-17 193913" src="https://github.com/user-attachments/assets/3756cf26-1edc-4006-b856-8e3382a200e6" />
 
 ---
 
-### Decoupling Capacitors (Decaps)
+###  Decoupling Capacitors
 
-- **Purpose**: To reduce power supply noise and voltage fluctuations.
-- **Placement**: Typically located near **macros or sensitive circuits** to ensure stable power delivery.
-- **Functionality**: Act as local charge reservoirs, absorbing noise from sudden switching activities.
+When digital gates (like an AND gate) switch states — from `0` to `1` or `1` to `0` — a brief surge in current (known as **switching current**) is required to charge or discharge the internal capacitances.
+
+Let’s assume there's an ideal switching capacitor with capacitance = 0.
+
+During these transitions, due to the **resistance (Rdd)** and **inductance (Ldd)** in the power supply path, a **voltage drop** occurs. This causes the actual supply voltage at the switching node (Node A) to dip from the ideal Vdd to a slightly lower value, say Vdd′ (e.g., from `1V` to `0.97V`). 
+<img width="634" height="393" alt="Screenshot 2025-07-17 193943" src="https://github.com/user-attachments/assets/297ce893-7976-436c-9052-0b920ae7e549" />
+
+
+#### 🔍 Why This Is Dangerous:
+- Logic `'1'` might now be interpreted as less than `1V` (e.g., `0.97V`)
+- It may not satisfy **Noise Margin High (NMH)**
+- Can lead to **incorrect logic evaluations** and unpredictable circuit behavior
+  <img width="886" height="498" alt="Screenshot 2025-07-17 194007" src="https://github.com/user-attachments/assets/be32e5b1-220c-4843-834c-2386c578d2d4" />
+
+
+#### 🛠 Solution:
+To counter this, **Decoupling Capacitors (Cd)** are added **in parallel** with the switching circuit:
+- When the logic gate switches, it **draws current from the decoupling capacitor** instead of the main supply
+- The **resistor-inductor (RL) network** slowly recharges the capacitor
+- This **maintains voltage stability** at the gate during rapid switching
+<img width="675" height="418" alt="Screenshot 2025-07-17 194028" src="https://github.com/user-attachments/assets/1171bb05-90a9-4603-ac80-5c0a0124413c" />
+
+#### 📌 In Real Chips:
+- Decoupling capacitors are **strategically placed between functional blocks** (e.g., Block A, Block B, Block C)
+- This ensures **localized and stable power delivery**
+- Prevents logic errors due to sudden voltage dips
+<img width="676" height="465" alt="Screenshot 2025-07-17 194042" src="https://github.com/user-attachments/assets/0ea65c3b-33af-4f12-9649-783c4eb511f9" />
 
 ---
 
-### Power Planning
+###  Power Planning
 
-Power planning ensures every part of the chip receives reliable power:
+Let's now treat the local circuit blocks as **black boxes** that are repeated across the chip. For proper functionality, **signals (0s and 1s)** must move reliably from drivers to loads.
 
-- Involves designing **power rings**, **straps**, and **rails**.
-- Distributes **VDD** and **GND** throughout the chip uniformly.
-- Must be completed before placement to guide standard cell positioning around power resources.
+However, if the **power source is far away**, issues can arise.
+
+#### 🧠 Example:
+Consider a **16-bit bus** connected to inverters:
+- When all lines toggle, internal capacitors charge or discharge
+- Discharging through a **single ground connection** creates **Ground Bounce**
+- Charging through a **single Vdd tap** causes a **Vdd Drop**
+<img width="760" height="488" alt="Screenshot 2025-07-17 194106" src="https://github.com/user-attachments/assets/e2ac46de-4236-4a4a-b21b-964c7c487cc5" />
+
+---
+<img width="883" height="484" alt="Screenshot 2025-07-17 194123" src="https://github.com/user-attachments/assets/3b120742-0a5a-4483-a8fc-75c5931aa130" />
+
+#### ⚠️ Problem 1: Ground Bounce
+- All capacitors discharging at once → bump in the ground rail
+- If this bump **exceeds noise margin**, signals enter an undefined state
+- May cause **incorrect values to be latched**
+<img width="866" height="486" alt="Screenshot 2025-07-17 194137" src="https://github.com/user-attachments/assets/db8b9215-5ee7-46bb-ac06-9d0bbaec39a1" />
 
 ---
 
-### Pin Placement and Logical Cell Placement Blockage
-
-- **IO Pins**: Positioned at the periphery of the die for external connectivity.
-- **Placement Blockages**: Defined to reserve regions where standard cells **should not** be placed.
-
-This helps in:
-- Avoiding placement near macros.
-- Controlling congestion in sensitive areas.
+#### ⚠️ Problem 2: Vdd Drop
+- Many capacitors charging at once from a single Vdd tap → voltage drop
+- If Vdd dips below NMH → possible logic failure
+<img width="863" height="477" alt="Screenshot 2025-07-17 194151" src="https://github.com/user-attachments/assets/bb11d0e7-e297-4639-a233-d99e616c031d" />
 
 ---
 
-### Steps to Run Floorplan using OpenLANE
+#### ✅ Solution: Power Mesh
+The solution is to **distribute power uniformly** using a **Power Mesh**:
+- Supply and ground taps are spread throughout the chip
+- Each block draws power from its **nearest available source**
+- Reduces stress on individual taps
+- **Prevents excessive voltage dips and ground bounce**
 
-To initiate floorplanning in OpenLANE, use:
+<img width="782" height="493" alt="Screenshot 2025-07-17 194208" src="https://github.com/user-attachments/assets/d039259e-7264-4daa-bf99-0d9d2ba66de1" />
+<img width="892" height="500" alt="Screenshot 2025-07-17 194226" src="https://github.com/user-attachments/assets/62f0d3e3-3598-42e7-8284-96208a239ca9" />
+
+
+---
+
+##  Pin Placement and Logical Cell Placement Blockage
+
+Let's take a basic design scenario:
+
+Two circuits are driven by different clocks (`clk1`, `clk2`), and take in data inputs (`Din1`, `Din2`) to produce outputs (`Dout1`, `Dout2`). Additionally:
+
+- `BlockA` receives `Din1` and `Din2`
+- `BlockB` takes both clocks and outputs `ClkOut`
+<img width="741" height="398" alt="Screenshot 2025-07-17 194256" src="https://github.com/user-attachments/assets/c54fd4ae-3fb2-45c2-b486-376af3eff076" />
+
+### 🧾 Total:
+- Inputs: `clk1`, `clk2`, `Din1`, `Din2`
+- Outputs: `Dout1`, `Dout2`, `ClkOut`
+
+We can further increase complexity by adding logic across clock domains, potentially ending with **6 input and 5 output ports**.
+<img width="560" height="491" alt="Screenshot 2025-07-17 194319" src="https://github.com/user-attachments/assets/bb4d030e-3255-484c-a720-fbe41488665f" />
+
+---
+
+## 🧠 What is a Netlist?
+
+A **Netlist** is the **connectivity description** of a circuit, typically written in Verilog or VHDL. 
+
+- The **frontend team** defines the netlist
+- The **backend team** uses it for **layout, placement, and routing**
+
+---
+
+## 🧩 Pin & Block Placement Guidelines
+
+- The **netlist** is placed inside the **core area** of the chip
+- The space between **core and die edge** is used for **pin placement**
+- Inputs to blocks should be **placed close** to minimize wire length and delay
+<img width="671" height="496" alt="Screenshot 2025-07-17 194341" src="https://github.com/user-attachments/assets/6bbe320a-5b57-4804-ad17-64d17f4290cf" />
+
+### ⏱ Clock Pin Placement:
+- Clock pins are **larger than data pins**
+- Reason: Clocks switch continuously and need **low-resistance paths**
+- Wider clock pins → **lower resistance** → **better signal integrity**
+
+---
+
+## 🚫 Logical Cell Placement Blockage
+
+Pin placement areas must be kept **free from standard logic cells** to:
+- Avoid **routing congestion**
+- Maintain **clean power paths**
+- Ensure **signal integrity**
+
+These reserved regions are called **Logical Cell Placement Blockages**.
+
+- Clearly marked in layout tools
+- Ensure there are **no cells placed** in pin zones to avoid interference
+
+<img width="725" height="486" alt="Screenshot 2025-07-17 194400" src="https://github.com/user-attachments/assets/556e7219-5a1f-4d07-ab8b-bf2475c00fe6" />
+
+---
+
+##  Floorplanning in OpenLANE
+
+###  Steps to Run Floorplan using OpenLANE
+
+Before running the floorplanning stage in OpenLANE, certain configuration switches must be set. These parameters help guide how the chip layout is planned.
+
+These switches can be found in various OpenLANE configuration files and control important aspects like chip area usage, pin placement, and power distribution.
+<img width="952" height="1017" alt="Screenshot 2025-07-17 194802" src="https://github.com/user-attachments/assets/c5b632b9-3c48-4398-96a3-a0ddf851defe" />
+
+From the image above, you can observe:
+
+- **Core Utilization Ratio** is set to `50%` by default — this defines how much of the chip area is allowed to be used by standard cells.
+- **Aspect Ratio** is set to `1` — which means the chip layout will be square by default.
+
+These are just default values — we can (and often should) change them according to our design requirements.
+
+Another important switch is `FP_PDN`, which deals with **Power Distribution Network (PDN)** settings. PDN setup is enabled by default during the floorplanning stage in OpenLANE.
+
+Also, `FP_IO_MODE` values:
+- `1` or `0` indicate pin placement is random, but the pins are spaced equally across the periphery.
+
+---
+
+### 🧩 Priority of Configuration Files
+
+OpenLANE uses configuration files in the following order of priority (from **lowest** to **highest**):
+
+1. `floorplan.tcl` → (Default system settings)  
+2. `config.tcl` → (User-defined design config)  
+3. `sky130A_sky130_fd_sc_hd_config.tcl` → (PDK variant-specific settings)
+<img width="961" height="1014" alt="Screenshot 2025-07-17 194906" src="https://github.com/user-attachments/assets/7ed7de51-5d79-45d5-b8bc-70a06d8320bc" />
+
+---
+
+### Review floorplan files and steps to view floorplan
+
+Once the floorplan is generated, you can inspect the configuration and layout using the files in the run folder:
+
+- Open `config.tcl` to see which parameters were actually used in the flow.
+  - This includes core utilization, aspect ratio, PDN settings, pin modes, etc.
+![Uploading Screenshot 2025-07-17 195019.png…]()
+
+
+To view the physical floorplan, navigate to:
 
 ```bash
-run_floorplan
+results/floorplan/
 ```
 
-This command runs a sequence of TCL scripts:
-- `floorplan.tcl` — for core area and IO definition.
-- `pdn.tcl` — to define and create the power delivery network.
-- `tapcell.tcl` — to insert tapcells for well ties and body biasing.
+In this folder, you’ll find a `.def` file (**Design Exchange Format**) which contains detailed layout data like die area, pin locations, and units.
+<img width="955" height="1018" alt="Screenshot 2025-07-17 195623" src="https://github.com/user-attachments/assets/92afdb9b-1982-4991-a665-b360d649912f" />
+
+Example values from `.def` file:
+
+```scss
+DIEAREA ( 0 0 ) ( 660685 671405 );
+UNITS DISTANCE MICRONS 1000 ;
+```
+
+This means:
+- Coordinates are in database units, where **1000 units = 1 micron**
+- Width = `660685 / 1000 = 660.685 µm`
+- Height = `671405 / 1000 = 671.405 µm`
 
 ---
 
-### Review Floorplan Files and Steps to View Floorplan
+### 🪄 View Floorplan in Magic
 
-#### Output Directory
-
-After floorplan execution, results are stored in:
+To visualize the layout, launch Magic using the following command:
 
 ```bash
-runs/<design_name>/results/floorplan/
+magic -T /Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech \
+lef read ../../tmp/merged.lef \
+def read picorv32a.floorplan.def
 ```
 
-Key files include:
-- `.def`: Design Exchange Format (contains physical design info).
-- `.lef`: Library Exchange Format (macro definitions and routing layers).
+Once you hit Enter, the Magic layout viewer will open and display the floorplan.
+<img width="953" height="1027" alt="Screenshot 2025-07-17 195852" src="https://github.com/user-attachments/assets/2fc7d6d4-de77-4b3e-b501-db7affa2ec9c" />
 
-#### Visualizing in Magic Layout Tool
+---
 
-To open the floorplan in Magic:
+###  Review Floorplan Layout in Magic
 
-```bash
-magic -T sky130A.tech runs/<design_name>/results/floorplan/<design_name>.mag
+In the layout:
+- Input/Output pins are placed at equal distances
+- You can select objects by clicking on them and pressing `'s'` (highlight)
+- To zoom in, press `'z'`, and to zoom out, press `Shift + z`
+<img width="957" height="1016" alt="Screenshot 2025-07-17 195952" src="https://github.com/user-attachments/assets/a4770681-63c5-4434-8129-9d49225f6ca7" />
+
+
+Once a pin is selected, you can use the `tkcon` window and type:
+
+```tcl
+what
 ```
+<img width="955" height="1011" alt="Screenshot 2025-07-17 200113" src="https://github.com/user-attachments/assets/ebf5c15c-3307-4382-9b37-eadb8b3e2e34" />
 
-Inside Magic:
-- `:load <design_name>` — Loads the design.
-- `Ctrl + Middle Click` — Zoom in/out.
-- `:select` and `:identify` — Inspect components.
+This shows the **layer** and **position** details of the selected object.
 
----
-
-### Library Building and Placement
-
-#### Netlist Binding and Initial Placement
-
-- **Netlist Binding**: Maps logical netlist to standard cell instances from the physical library.
-- **Initial Placement**: Cells are spread to minimize wirelength while maintaining legal positions.
+For example:
+- Horizontal pins might appear on **Metal 3**
+- Vertical pins might be placed on **Metal 2**
 
 ---
 
-### Optimize Placement Using Estimated Wirelength and Capacitance
+### 🧱 Standard Cells and Decap Cells
 
-During placement:
-- Tools estimate **wirelength** and **capacitance**.
-- Placement engine optimizes cell locations to **reduce parasitic delays** and **routing congestion**.
+You can also notice:
+- **Decap Cells** are placed at the borders of the layout to stabilize voltage levels
+- **Standard cells** like buffer 1, buffer 2, and AND gates are placed along rows
+
+<img width="961" height="1014" alt="Screenshot 2025-07-17 200327" src="https://github.com/user-attachments/assets/613249d3-8231-44a4-8ab9-ceae1773b205" />
+
+These observations are crucial for understanding the **structure** and **efficiency** of your chip design.
+
+
+
+---
+### 🏛️ Library Building and Placement
 
 ---
 
-### Final Placement Optimization
+#### 🔗 Netlist Binding and Initial Place Design
 
-After initial placement:
-- Tools like **RePlAce** are used for **legalization** and **timing-aware optimization**.
-- Ensures improvements in:
-  - Total wirelength
-  - Cell density distribution
-  - Routing congestion
+**Binding Netlist with Physical Cells:**
 
----
+- A netlist contains gates like NOT, AND, Flip-Flops, etc.
+- In the physical world, these are represented as rectangular boxes with actual width and height.
+- For each component, specific dimensions are assigned.
+- These standard shapes (squares/rectangles) allow placement on silicon even though symbolic shapes (e.g., triangle for NOT) are used for functional clarity.
+<img width="884" height="496" alt="Screenshot 2025-07-17 200718" src="https://github.com/user-attachments/assets/579f85da-64bc-4067-a2a8-4fd113b078d7" />
 
-### Need for Libraries and Characterization
-
-Standard cell libraries are vital for the PnR process.
-
-- Each cell is **characterized** for:
-  - Timing (delay, setup/hold)
-  - Power consumption
-  - Physical area
-
-- Characterization is typically done using **SPICE simulations**, and results are stored in `.lib` files.
+📚 **Library** is a shelf of all these logic elements (gates, flip-flops) and also includes:
+- Timing information (delay, drive strength, etc.)
+- Variants of cells (e.g., bigger versions with lower resistance = faster operation)
+<img width="890" height="498" alt="Screenshot 2025-07-17 200729" src="https://github.com/user-attachments/assets/128e85fc-768c-4b1f-8886-6c6bbfa80626" />
 
 ---
 
-### Congestion-Aware Placement Using RePlAce
+## 📍 Placement
 
-**RePlAce** is an open-source tool integrated with OpenLANE for optimized placement.
-
-It considers:
-- **Routing congestion**
-- **Cell utilization**
-- **Wirelength**
-
-Resulting in a balanced and legal layout ready for routing.
-
----
-
-### Cell Design and Characterization Flows
-
-#### Inputs for Cell Design Flow
-
-Includes specifications such as:
-- Functionality
-- Fanout
-- Drive strength
-- Voltage levels
-
-#### Circuit Design Steps
-
-- **Schematic Capture**: Done using tools like **Xschem**.
-- **Simulation**: Performed using **Ngspice** to validate circuit behavior.
+- Once size and shape are defined, components from the netlist are placed on the **floorplan**.
+- The floorplan includes IO ports and area.
+- Placement ensures:
+  - Logical connectivity is respected.
+  - Timing paths are minimized.
+  - No overlap with pre-placed macros.
+<img width="897" height="503" alt="Screenshot 2025-07-17 200742" src="https://github.com/user-attachments/assets/13369837-ab1a-4482-96d9-c812c91f510a" />
+<img width="884" height="506" alt="Screenshot 2025-07-17 200756" src="https://github.com/user-attachments/assets/635a8dd4-1a39-4fdc-8f9a-1cda61b5afd1" />
+<img width="887" height="484" alt="Screenshot 2025-07-17 201051" src="https://github.com/user-attachments/assets/00127755-61d8-4a15-8a0a-20ba6f782849" />
 
 ---
 
-### Layout Design Step
+## Optimize placement using estimated wire-length and capacitance
 
-- **Tool Used**: Magic Layout.
-- Layout includes layers like:
-  - Diffusion (active area)
-  - Polysilicon (gate)
-  - Metal layers (interconnects)
+<img width="889" height="493" alt="Screenshot 2025-07-17 201119" src="https://github.com/user-attachments/assets/74db9b52-b551-4a65-b649-1fbbf562d9b5" />
 
-Ensures physical rule compliance for fabrication.
+- **Problem**: FF1 and Din2 are far apart → large wire → high resistance/capacitance → delay.
+- **Solution**: Insert repeaters (buffers) between long wires to maintain signal integrity.
+<img width="900" height="497" alt="Screenshot 2025-07-17 201147" src="https://github.com/user-attachments/assets/ec47ae4f-016f-4d3d-9efb-8d4a0aa63816" />
 
----
+📘 **Repeaters**:
+- Re-generate original signals.
+- Used when wire length is too long for a single driver.
 
-### Typical Characterization Flow
-
-1. Create **SPICE netlist** of the cell.
-2. Build testbenches for simulating input-output behavior.
-3. Simulate and extract:
-   - Delay
-   - Power
-   - Slew rate
-4. Generate `.lib` files for use in timing analysis tools.
+**Trade-off**: Improved signal integrity vs. increased area usage.
 
 ---
 
-### General Timing Characterization Parameters
+##  Final Placement Optimization
 
-#### Timing Threshold Definitions
+- Similar to Stage 2, Stage 3 may also require buffers.
+<img width="889" height="490" alt="Screenshot 2025-07-17 201210" src="https://github.com/user-attachments/assets/8c007771-6f90-46e6-a896-1318cfc16a70" />
 
-- Defines at what voltage level timing is measured.
-- Common thresholds:
-  - **50% VDD** for propagation delay.
-  - **10%–90%** or **20%–80%** ranges for rise/fall times.
+  
+- **Stage 4** involves **Timing Analysis**:
+  - Checks whether signal paths meet setup/hold time.
+  - Uses ideal clocks for initial verification.
+<img width="896" height="496" alt="Screenshot 2025-07-17 201229" src="https://github.com/user-attachments/assets/f7151dde-bd67-4069-a281-8d6f77876d23" />
 
-#### Propagation Delay and Transition Time
+---
 
-- **Propagation Delay**: Time for signal to move from input to output.
-- **Transition Time (Slew)**: Time for signal to transition between logic states (low to high or high to low).
+##  Need for Libraries and Characterization
+
+Each step of the IC design flow requires accurate library information.
+
+### IC Design Flow Steps:
+1. **Logic Synthesis**: RTL → Gate-level netlist.
+2. **Floorplanning**: Define core/die size.
+3. **Placement**: Assign physical locations.
+4. **CTS**: Deliver clock evenly.
+5. **Routing**: Wire-level connectivity.
+6. **STA**: Check timing, frequency, setup/hold violations.
+
+🔁 Common factor: **Standard cells** from library used across all steps.
+
+---
+
+##  Congestion Aware Placement using RePlAce
+
+- **Objective**: Reduce congestion, not timing.
+- **Two stages**:
+  - Global Placement (no legalization)
+  - Detailed Placement (legalization happens)
+
+  
+<img width="954" height="1016" alt="Screenshot 2025-07-17 201526" src="https://github.com/user-attachments/assets/66a037b6-2450-4b4a-be10-301bb3305614" />
+
+🔍 View in **Magic**:
+- Standard cells visible (gates, FFs, buffers).
+<img width="955" height="1017" alt="Screenshot 2025-07-17 201608" src="https://github.com/user-attachments/assets/b1e29824-d48c-4ef3-ba24-e1d3725e245c" />
+
+---
+
+## 🧬 Cell Design and Characterization Flows
+
+---
+<img width="884" height="479" alt="Screenshot 2025-07-17 201840" src="https://github.com/user-attachments/assets/b96ed6fc-8b32-42f9-b18b-d7a6dfff5614" />
+
+### 📥 Inputs for Cell Design
+
+- PDKs, DRC/LVS rules, SPICE models, user-defined specs.
+- DRC & LVS via `.tech` file.
+- SPICE defines transistor behavior.
+<img width="888" height="485" alt="Screenshot 2025-07-17 201857" src="https://github.com/user-attachments/assets/21fcd500-d41a-46fa-be75-4b641e7469ea" />
+
+---
+
+### 🧰 Circuit Design Steps
+
+1. Implement function using PMOS/NMOS.
+2. Ensure compatibility with library constraints (e.g., drive strength, size).
+3. Generate CDL (Circuit Description Language), GDSII, LEF, Extracted SPICE Netlist (.cir).
+<img width="874" height="496" alt="Screenshot 2025-07-17 201952" src="https://github.com/user-attachments/assets/9c497bea-c645-4369-8c6b-2de15960ecd3" />
+
+---
+
+### 🧱 Layout Design Step
+
+1. Implement circuit using transistors.
+2. Generate **network graphs**.
+<img width="915" height="497" alt="Screenshot 2025-07-17 202026" src="https://github.com/user-attachments/assets/cf56d21a-989b-48bc-ac82-9e89a213b81b" />
+
+3. Find **Euler’s path** → ensures efficient layout.
+  <img width="891" height="487" alt="Screenshot 2025-07-17 202053" src="https://github.com/user-attachments/assets/9b06db78-2e5d-4e86-b66c-d21f16319bff" />
+
+4. Draw **stick diagram**.
+   <img width="492" height="301" alt="Screenshot 2025-07-17 202133" src="https://github.com/user-attachments/assets/a053a32a-0e84-4988-83be-503241ee9e12" />
+
+5. Convert to **physical layout**.
+    <img width="282" height="321" alt="Screenshot 2025-07-17 202211" src="https://github.com/user-attachments/assets/9dc58bf5-d6d4-48b0-9302-b139d44d324c" />
+
+6. Extract parasitics and prepare for timing characterization.
+
+---
+
+##  Typical Characterization Flow
+
+1. Read model and netlist.
+2. Define buffer behavior.
+3. Attach power supplies.
+4. Apply input stimulus.
+5. Add output capacitance.
+   <img width="762" height="420" alt="Screenshot 2025-07-17 202238" src="https://github.com/user-attachments/assets/28d51fb3-6f1f-48d2-b75a-d6eb50938aaf" />
+
+6. Run simulations (`.tran`, `.dc`).
+7. Feed all into config file for **GUNA** (characterization software).
+<img width="883" height="501" alt="Screenshot 2025-07-17 202319" src="https://github.com/user-attachments/assets/d20bb71b-5409-4423-8154-457e79280288" />
+
+
+🧾 Output: Power, Noise, Timing models.
+
+---
+
+## Timing Characterization Parameters
+
+### ⏱️ Timing Threshold Definitions
+
+**Slew thresholds** (typical values):
+- `slew_low_rise_thr` → 20%
+  <img width="880" height="486" alt="Screenshot 2025-07-17 202352" src="https://github.com/user-attachments/assets/32825336-11e4-445a-91e5-0f522d6984e1" />
+
+- `slew_high_rise_thr` → 80%
+  <img width="886" height="503" alt="Screenshot 2025-07-17 202410" src="https://github.com/user-attachments/assets/f5a6dca3-2c86-429a-95a5-23c55120a0db" />
+
+- `slew_low_fall_thr` → 20%
+<img width="887" height="502" alt="Screenshot 2025-07-17 202453" src="https://github.com/user-attachments/assets/623fcbf1-6019-40eb-b8cc-5a4d33ec3e3b" />
+
+- `slew_high_fall_thr` → 80%
+<img width="887" height="501" alt="Screenshot 2025-07-17 202509" src="https://github.com/user-attachments/assets/33bd2f76-15e0-4705-bc1b-18eec46ee381" />
+
+
+**Delay thresholds** (typically 50%):
+- `in_rise_thr`, `in_fall_thr`
+<img width="873" height="486" alt="Screenshot 2025-07-17 202535" src="https://github.com/user-attachments/assets/255e53bf-2913-4b74-8a15-e17a209fc5d1" />
+
+- `out_rise_thr`, `out_fall_thr`
+<img width="887" height="504" alt="Screenshot 2025-07-17 202613" src="https://github.com/user-attachments/assets/07f3ab1e-7b3b-4b56-9308-b6affe79b56b" />
+
+---
+
+###  Propagation Delay and Transition Time
+
+- **Delay** = `time(out_thr) - time(in_thr)`
+- **Transition time (slew)** = `time(high_thr) - time(low_thr)`
+<img width="890" height="496" alt="Screenshot 2025-07-17 202624" src="https://github.com/user-attachments/assets/60aefc28-717d-4369-9b9c-a6bb960e3b0e" />
+
+🛑 **Important**:
+- Poor choice of threshold → negative delay (invalid)
+- Even with correct threshold, output arriving before input = negative delay
+<img width="882" height="497" alt="Screenshot 2025-07-17 202636" src="https://github.com/user-attachments/assets/83c055a9-1377-43e1-9c01-b15984ad7a18" />
+
+
+
+✅ Slew and delay values are essential for accurate STA and simulation. 
+
+<img width="848" height="437" alt="Screenshot 2025-07-17 202733" src="https://github.com/user-attachments/assets/5dda03ae-23cb-46cf-b85b-6cb2b92b9d90" />
+<img width="803" height="413" alt="Screenshot 2025-07-17 202749" src="https://github.com/user-attachments/assets/de8b95b8-54c2-41d9-a407-3b0869ed5ad5" />
+
+
+---
