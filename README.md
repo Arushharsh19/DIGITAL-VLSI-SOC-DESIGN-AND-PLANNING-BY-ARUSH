@@ -32,32 +32,32 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
 
 ## 📅 Day 2: Good Floorplanning Considerations
 
-### 🔸 Chip Floorplanning Consideration
-- Utilization factor and aspect ratio
-- Concept of pre-placed cells
-- De-coupling capacitors
-- Power planning
-- Pin placement and logical cell placement blockage
-- Steps to run floorplan using OpenLANE
-- Review floorplan files and steps to view floorplan
-- Review floorplan layout in Magic
+- 🔸 [Chip Floorplanning Consideration](#chip-floorplanning-consideration)
+- [Utilization factor and aspect ratio](#utilization-factor-and-aspect-ratio)
+- [Concept of pre-placed cells](#concept-of-pre-placed-cells)
+- [Decoupling capacitors](#decoupling-capacitors)
+- [Power planning](#power-planning)
+- [Pin placement and logical cell placement blockage](#pin-placement-and-logical-cell-placement-blockage)
+- [Steps to run floorplan using OpenLANE](#steps-to-run-floorplan-using-openlane)
+- [Review floorplan files and steps to view floorplan](#review-floorplan-files-and-steps-to-view-floorplan)
+- [Review floorplan layout in Magic](#review-floorplan-layout-in-magic)
 
-### 🔸 Library Building and Placement
-- Netlist binding and initial place design
-- Optimize placement using estimated wire-length and capacitance
-- Final placement optimization
-- Need for libraries and characterization
-- Congestion aware placement using RePlAce
+- 🔸 [Library Building and Placement](#library-building-and-placement)
+- [Netlist binding and initial place design](#netlist-binding-and-initial-place-design)
+- [Optimize placement using estimated wire-length and capacitance](#optimize-placement-using-estimated-wire-length-and-capacitance)
+- [Final placement optimization](#final-placement-optimization)
+- [Need for libraries and characterization](#need-for-libraries-and-characterization)
+- [Congestion aware placement using RePlAce](#congestion-aware-placement-using-replace)
 
-### 🔸 Cell Design and Characterization Flows
-- Inputs for cell design flow
-- Circuit design steps
-- Layout design step
-- Typical characterization flow
+- 🔸 [Cell Design and Characterization Flows](#cell-design-and-characterization-flows)
+- [Inputs for cell design flow](#inputs-for-cell-design-flow)
+- [Circuit design steps](#circuit-design-steps)
+- [Layout design step](#layout-design-step)
+- [Typical characterization flow](#typical-characterization-flow)
 
-### 🔸 General Timing Characterization Parameters
-- Timing threshold definitions
-- Propagation delay and transition time
+- 🔸 [General Timing Characterization Parameters](#general-timing-characterization-parameters)
+- [Timing threshold definitions](#timing-threshold-definitions)
+- [Propagation delay and transition time](#propagation-delay-and-transition-time)
 
 ---
 
@@ -828,11 +828,11 @@ These observations are crucial for understanding the **structure** and **efficie
 
 
 ---
-### 🏛️ Library Building and Placement
+###  Library Building and Placement
 
 ---
 
-#### 🔗 Netlist Binding and Initial Place Design
+####  Netlist Binding and Initial Place Design
 
 **Binding Netlist with Physical Cells:**
 
@@ -849,7 +849,7 @@ These observations are crucial for understanding the **structure** and **efficie
 
 ---
 
-## 📍 Placement
+##  Placement
 
 - Once size and shape are defined, components from the netlist are placed on the **floorplan**.
 - The floorplan includes IO ports and area.
@@ -924,12 +924,12 @@ Each step of the IC design flow requires accurate library information.
 
 ---
 
-## 🧬 Cell Design and Characterization Flows
+##  Cell Design and Characterization Flows
 
 ---
 <img width="884" height="479" alt="Screenshot 2025-07-17 201840" src="https://github.com/user-attachments/assets/b96ed6fc-8b32-42f9-b18b-d7a6dfff5614" />
 
-### 📥 Inputs for Cell Design
+###  Inputs for Cell Design Flow
 
 - PDKs, DRC/LVS rules, SPICE models, user-defined specs.
 - DRC & LVS via `.tech` file.
@@ -938,7 +938,7 @@ Each step of the IC design flow requires accurate library information.
 
 ---
 
-### 🧰 Circuit Design Steps
+###  Circuit Design Steps
 
 1. Implement function using PMOS/NMOS.
 2. Ensure compatibility with library constraints (e.g., drive strength, size).
@@ -947,7 +947,7 @@ Each step of the IC design flow requires accurate library information.
 
 ---
 
-### 🧱 Layout Design Step
+###  Layout Design Step
 
 1. Implement circuit using transistors.
 2. Generate **network graphs**.
@@ -984,9 +984,9 @@ Each step of the IC design flow requires accurate library information.
 
 ---
 
-## Timing Characterization Parameters
+## General Timing Characterization Parameters
 
-### ⏱️ Timing Threshold Definitions
+###  Timing Threshold Definitions
 
 **Slew thresholds** (typical values):
 - `slew_low_rise_thr` → 20%
