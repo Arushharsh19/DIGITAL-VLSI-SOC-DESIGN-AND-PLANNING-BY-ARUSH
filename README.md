@@ -1370,6 +1370,8 @@ This command will provide a description of the error.
 
 Now, we will make the following changes in the `sky130A.tech` file:
 
+<img width="956" height="1018" alt="Screenshot 2025-07-20 010949" src="https://github.com/user-attachments/assets/f815719c-62f6-4d95-a7f0-64718432a55a" />
+
 <img width="958" height="1013" alt="Screenshot 2025-07-20 005159" src="https://github.com/user-attachments/assets/014470c2-e44e-4904-8f81-c077b2df3950" />
 
 To locate the nwell.6 model error, open the `nwell.mag` file in the Magic tool. In the figure, the deep n-well is depicted by yellow stripes, and the n-well by a dotted green pattern.
@@ -1378,12 +1380,13 @@ To locate the nwell.6 model error, open the `nwell.mag` file in the Magic tool. 
 
 This error can also be observed directly at the site.
 
+<img width="959" height="969" alt="Screenshot 2025-07-20 005449" src="https://github.com/user-attachments/assets/bcf33d1d-932e-4e86-9637-2e9126220bfd" />
 
 #### Lab challenge to find missing or incorrect rules and fix them
 
 Now, open the Magic tool and execute the commands `drc style drc(full)` and `drc check`.
 
-[Image: Magic commands for DRC check]
+<img width="957" height="1016" alt="Screenshot 2025-07-20 011037" src="https://github.com/user-attachments/assets/8915f5ac-fabb-43ed-a200-88c9c38dad72" />
 
 ---
 
