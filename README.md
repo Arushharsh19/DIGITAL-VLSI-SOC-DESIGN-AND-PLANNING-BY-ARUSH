@@ -1,4 +1,4 @@
-<img width="880" height="486" alt="Screenshot 2025-07-17 202352" src="https://github.com/user-attachments/assets/f4d91e77-8c0c-4045-836b-559602a05889" /><img width="955" height="1011" alt="Screenshot 2025-07-17 200113" src="https://github.com/user-attachments/assets/39b7a3ca-768f-432c-9149-8ef0ebf471ba" /><img width="957" height="1016" alt="Screenshot 2025-07-17 195952" src="https://github.com/user-attachments/assets/c3d70427-13c6-40a2-944a-28f7120120ed" /><img width="427" height="224" alt="Screenshot 2025-07-21 130908" src="https://github.com/user-attachments/assets/41eeace7-2f08-4a11-8faa-9adcdbe939b6" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 
 ## 📝 Introduction
 
@@ -538,7 +538,7 @@ When a particular line of the 16-bit bus transitions to logic 1, it means its as
 
 A significant problem arises if all capacitors are connected to a single ground point. During discharge, this can cause a transient increase, or "bump," in the ground reference voltage at the common ground tap point. This phenomenon is known as Ground Bounce. If the magnitude of this bounce exceeds the noise margin, the circuit might enter an undefined state, leading to unpredictable behavior (e.g., it could register as either logic 1 or logic 0).
 
-![Uploading Screenshot 2025-07-17 194137.png…]()
+<img width="866" height="486" alt="Screenshot 2025-07-17 194137" src="https://github.com/user-attachments/assets/87a506ed-dbee-45a9-8d62-820ab90d4e43" />
 
 Similarly, when all capacitors that were at 0 volts need to charge to Vdd through a single Vdd tap point, it causes a momentary lowering of the voltage at that Vdd tap point. As long as this voltage drop remains within the noise margin, the system functions correctly. However, if it ventures into an undefined region, the system's behavior becomes unpredictable.
 
@@ -564,8 +564,8 @@ Currently, this setup has 4 input ports (Din1, Din2, Clk1, Clk2) and 3 output po
 <img width="741" height="398" alt="Screenshot 2025-07-17 194256" src="https://github.com/user-attachments/assets/0f2ddb06-272b-4924-8778-19eec196fda5" />
 
 Let's consider another design requiring implementation. These types of circuits are particularly useful for understanding inter-clock timing analysis. The complete design, as shown below, now features 6 input ports and 5 output ports. The connectivity between gates is defined using HDL (VHDL/Verilog) and is referred to as the 'Netlist'.
-
-![Uploading Screenshot 2025-07-17 194319.png…]()
+ 
+<img width="560" height="491" alt="Screenshot 2025-07-17 194319" src="https://github.com/user-attachments/assets/c817cc82-08cb-4ff1-acc1-f960864addf4" />
 
 We now take this netlist and place it within the core designed earlier. The empty space between the core and the die needs to be filled with pin information. The front-end team defines the netlist connectivity, inputs, and outputs, while the back-end team handles pin placements. According to pin placement guidelines, pre-placed blocks should be located closer to their respective input pins.
 
