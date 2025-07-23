@@ -27,7 +27,7 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
 ## [Day 2 - Good floor planning considerations](#day-2---good-floor-planning-considerations)
 * [Chip Floor planning consideration](#chip-floor-planning-consideration)
   * [Utilization factor and aspect ratio](#utilization-factor-and-aspect-ratio)
-  * [Concept of pre-placed cells](#concept-of-pre-placed-cells)
+  * [Concept of pre-placed cells](#concept-of-preplaced-cells)
   * [De-coupling capacitors](#de-coupling-capacitors)
   * [Power planning](#power-planning)
   * [Pin placement and logical cell placement blockage](#pin-placement-and-logical-cell-placement-blockage)
@@ -58,12 +58,12 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
   * [Switching Threshold Vm](#switching-threshold-vm)
   * [Static and dynamic simulation of CMOS inverter](#static-and-dynamic-simulation-of-cmos-inverter)
   * [Lab steps to git clone vsdstdcelldesign](#lab-steps-to-git-clone-vsdstdcelldesign)
-* [Inception of layout ̂A CMOS faabrication process](#inception-of-layout-a-cmos-faabrication-process)
+* [Inception of layout and CMOS fabrication process](#inception-of-layout-and-cmos-fabrication-process)
   * [Create Active regions](#create-active-regions)
   * [Formation of N-well and P-well](#formation-of-n-well-and-p-well)
   * [Formation of gate terminal](#formation-of-gate-terminal)
   * [Lightly doped drain (LDD) formation](#lightly-doped-drain-ldd-formation)
-  * [Source ÃÂ drain formation](#source-drain-formation)
+  * [Source and drain formation](#source-and-drain-formation)
   * [Local interconnect formation](#local-interconnect-formation)
   * [Higher level metal formation](#higher-level-metal-formation)
   * [Lab introduction to Sky130 basic layers layout and LEF using inverter](#lab-introduction-to-sky130-basic-layers-layout-and-lef-using-inverter)
@@ -108,7 +108,7 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
   * [Lab steps to observe impact of bigger CTS buffers on setup and hold timing](#lab-steps-to-observe-impact-of-bigger-cts-buffers-on-setup-and-hold-timing)
 
 
-## [Day 5 -Final step for RTL2GDS using tritinRoute and openSTA](#day-5-final-step-for-rtl2gds-using-tritinroute-and-opensta)
+## [Day 5 -Final step for RTL2GDS using tritinRoute and openSTA](#day-5---final-step-for-rtl2gds-using-tritinroute-and-opensta)
 * [Routing and design rule check (DRC)](#routing-and-design-rule-check-drc)
   * [Introduction to Maze Routing ÃÂ LeeÃÂs algorithm](#introduction-to-maze-routing---lees-algorithm)
   * [LeeÃÂs Algorithm conclusion](#lees-algorithm-conclusion)
@@ -118,14 +118,14 @@ This repository contains my notes and documentation from a 5-day workshop on Dig
   * [Lab steps from power straps to std cell power](#lab-steps-from-power-straps-to-std-cell-power)
   * [Basics of global and detail routing and configure TritonRoute](#basics-of-global-and-detail-routing-and-configure-tritonroute)
 * [TritonRoute Features](#tritonroute-features)
-  * [TritonRoute feature 1 - Honors pre-processed route guides](#tritonroute-feature-1-honors-pre-processed-route-guides)
-  * [TritonRoute Feature2 & 3 - Inter-guide connectivity and intra- & inter-layer routing](#tritonroute-feature2--3-inter-guide-connectivity-and-intra--inter-layer-routing)
+  * [TritonRoute feature 1 - Honors pre-processed route guides](#tritonroute-feature-1-honors-preprocessed-route-guides)
+  * [TritonRoute Feature 2 & 3  Inter guide connectivity and intra & inter layer routing](#tritonroute-feature-2-and-3-inter-guide-connectivity-and-intra-and-inter-layer-routing)
   * [TritonRoute method to handle connectivity](#tritonroute-method-to-handle-connectivity)
   * [Routing topology algorithm and final files list post-route](#routing-topology-algorithm-and-final-files-list-post-route)
 
 * [References](#references)
 * [Acknowledgement](#acknowledgement)
-    
+
 ---
 
 ### Day 1 - Inception of open-source EDA, OpenLANE and sky130 PDK
@@ -480,7 +480,7 @@ The aspect ratio remains 1, confirming the chip's square shape.
 
 <img width="889" height="502" alt="Screenshot 2025-07-17 193846" src="https://github.com/user-attachments/assets/4f2683fa-3427-4462-8868-2e5da22856d5" />
 
-#### Define locations of Preplaced Cells
+#### Concept of Preplaced Cells
 
 Consider a large combinational logic circuit performing a specific function, comprised of many logic gates. We can subdivide this large circuit into smaller, manageable blocks. For instance, we can partition the entire circuit into two distinct blocks, to be implemented separately.
 
@@ -641,7 +641,8 @@ Here, you can distinguish different standard cells, such as Buffer 1, Buffer 2, 
 
 #### Library building and Placement
 
-**Netlist binding and initial place design**
+#### Netlist binding and initial place design
+
 Bind netlist with physical cells:
 A netlist logically describes gates (e.g., a NOT gate as a triangle). In reality, these gates are physical boxes with defined width and height, like square boxes for AND gates or flip-flops.
 Each component of the netlist is assigned a specific physical shape and dimensions because abstract shapes (like graphical AND/OR gates) do not exist in the real world. All blocks also possess defined width, height, and proper physical form.
@@ -719,7 +720,7 @@ Zooming into this view, you can identify various components like buffers, gates,
 
 #### Cell design and characterization flows
 
-**Inputs for cell design flow**
+#### Inputs for cell design flow
 In the Cell Design Flow, gates, flip-flops, and buffers are referred to as 'Standard Cells'. These standard cells are stored in a section called the 'Library'.
 Within the library, numerous other cells are available, sharing the same functionality but varying in size.
 
@@ -740,7 +741,7 @@ A SPICE model provides information like the threshold voltage equation for trans
 
 <img width="888" height="485" alt="Screenshot 2025-07-17 201857" src="https://github.com/user-attachments/assets/cf794f0b-1bbd-4c3f-b0ef-a560e463701a" />
 
-**Circuit design steps**
+#### Circuit design steps
 The separation between the power rail and the ground rail defines the cell height. Cell width, on the other hand, depends on timing requirements and drive strength.
 
 **2) Design steps:** Design typically involves three primary steps:
@@ -764,7 +765,7 @@ The typical outputs from the circuit design phase include:
 
 <img width="874" height="496" alt="Screenshot 2025-07-17 201952" src="https://github.com/user-attachments/assets/a2ad4541-7ac8-4851-a4cc-08e24c717df0" />
 
-**Layout design step**
+#### Layout design step
 In Layout Design, the first step is to implement the circuit's function using MOS transistors (a set of PMOS and NMOS transistors).
 The second step involves extracting the PMOS network graph and the NMOS network graph from the implemented design.
 
@@ -807,7 +808,7 @@ This software then generates the power, noise, and timing models.
 
 #### General timing characterization parameters
 
-**Timing threshold definitions**
+#### Timing threshold definitions
 As seen in the previous section, with inverters connected back-to-back, power sources, and applied stimulus, it becomes critical to understand different threshold points of a waveform. These are called "Timing threshold definitions."
 In the figure below, the term Slew_low_rise_thr depicts a value close to 0, typically around 20%, but it could also be 30%.
 
@@ -880,7 +881,7 @@ Following floor planning and placement, we might need to modify the floorplan. F
 To do this, first, review the configuration switches. Locate the FP_IO_MODE syntax, for example, `env(FP_IO_MODE) 1`, and change its value to 2. Then, re-run the floorplanning process.
 Verify the changes in pin locations using `magic -T`.
 
-[Image: Magic layout showing pins in the lower half]
+<img width="959" height="1019" alt="Screenshot 2025-07-18 122824" src="https://github.com/user-attachments/assets/b1472447-06d2-4fdd-963f-38dd0c3562ee" />
 
 As observed in the image, all pins are now concentrated in the lower half of the core, with no pins in the upper half.
 
@@ -889,14 +890,27 @@ As observed in the image, all pins are now concentrated in the lower half of the
 **VTC- SPICE simulations:** The initial step involves creating a SPICE deck. This deck fundamentally defines the netlist's connectivity, specifying the simulation inputs and output measurement points.
 
 * **Component connectivity:** We define the connectivity of the substrate pin, which is crucial for tuning the threshold voltage of both PMOS and NMOS transistors.
+
+<img width="351" height="379" alt="Screenshot 2025-07-18 133204" src="https://github.com/user-attachments/assets/7f23b8f5-5c12-4ff2-80d5-77c9cd3aeb49" />
+
 * **Component values:** We assign specific values for the PMOS and NMOS transistors, typically taking them to be of the same size.
+
+<img width="434" height="372" alt="Screenshot 2025-07-18 142138" src="https://github.com/user-attachments/assets/50b5ae93-3f28-4a78-9409-b563f3d9339b" />
+
 * **Identify the nodes:** Nodes represent the connection points between components. These nodes are essential for defining the netlist.
+
+<img width="519" height="404" alt="Screenshot 2025-07-18 142526" src="https://github.com/user-attachments/assets/d4ea3715-50ea-422a-95e8-81e1a53f73c7" />
+
 * **Name the nodes:** We then assign meaningful names to these nodes, such as Vin, Vss, Vdd, and out.
+
+<img width="386" height="360" alt="Screenshot 2025-07-18 142813" src="https://github.com/user-attachments/assets/2058707d-c8b7-49f3-8fa1-4e0feea83d9e" />
 
 Now, we proceed to write the SPICE deck, following this format: Drain - Gate - Source - Substrate.
 
 * For M1 MOSFET (PMOS): The drain connects to the out node, the gate to the in node, and both the substrate and source connect to the Vdd node.
 * For M2 MOSFET (NMOS): The drain connects to the out node, the gate to the in node, and both the source and substrate connect to 0 (ground).
+
+<img width="476" height="164" alt="Screenshot 2025-07-18 142848" src="https://github.com/user-attachments/assets/85802992-a3ed-4e6f-b16d-70a6e3c6fd02" />
 
 #### SPICE simulation lab for CMOS inverter
 
@@ -906,16 +920,25 @@ Having defined the CMOS inverter's connectivity, we now specify the connections 
 * The supply voltage (Vdd) is connected between Vdd and node 0, with a value of 2.5V.
 * Similarly, the input voltage (Vin) is connected between Vin and node 0, also with a value of 2.5V.
 
+<img width="204" height="99" alt="Screenshot 2025-07-18 143739" src="https://github.com/user-attachments/assets/ad1a7898-2a46-4d4a-b87c-28f5a50e84d1" />
+
 Next, we provide the simulation commands. We sweep the Vin from 0V to 2.5V in steps of 0.05V to observe Vout as Vin changes.
 
+<img width="337" height="84" alt="Screenshot 2025-07-18 143831" src="https://github.com/user-attachments/assets/a5481ca3-c65c-4daa-84c0-a4ba9c01f46d" />
+
 The final step involves incorporating the model files, which provide a complete description of the NMOS and PMOS transistors.
+
+<img width="454" height="77" alt="Screenshot 2025-07-18 144009" src="https://github.com/user-attachments/assets/aad43cdc-3fbe-4ae6-b9ce-83436debaa41" />
+
+<img width="851" height="437" alt="Screenshot 2025-07-18 144016" src="https://github.com/user-attachments/assets/2fd9583a-f3eb-40dd-99c7-60271f348cf4" />
+
 We then execute the SPICE simulation with these defined values to generate the voltage transfer characteristic (VTC) graph.
 
-[Image: SPICE simulation VTC graph 1]
+<img width="540" height="433" alt="Screenshot 2025-07-18 144526" src="https://github.com/user-attachments/assets/76e703af-97f9-4634-97fe-3a844b9f9f5e" />
 
 For a second simulation, we modify the PMOS width to be three times that of the NMOS width. After running this simulation, a new VTC graph is obtained.
 
-[Image: SPICE simulation VTC graph 2 with modified PMOS width]
+<img width="534" height="436" alt="Screenshot 2025-07-18 144814" src="https://github.com/user-attachments/assets/69726cfa-8896-4c81-8c30-48223256ef98" />
 
 The key difference between these two graphs is that the second graph's transfer characteristic is precisely centered, whereas the first graph's characteristic is shifted to the left of the center.
 
@@ -927,15 +950,17 @@ When the input voltage (Vin) is low, the output is high, and when Vin is high, t
 
 The Switching Threshold, Vm, is a critical parameter that defines an inverter's robustness. It is the point where Vin equals Vout.
 
-[Image: VTC graph showing Vm]
+<img width="716" height="481" alt="Screenshot 2025-07-18 145326" src="https://github.com/user-attachments/assets/9c60a942-e308-425a-a4ae-2e2dfc6faa2a" />
 
 In this figure, Vm is approximately 0.9V, where Vin = Vout. This point is critical for CMOS operation because both PMOS and NMOS transistors have a chance of being simultaneously turned on. If both are on, there's a high probability of leakage current (current flowing directly from power to ground).
 
 Comparing both graphs helps in understanding the concept of switching threshold voltage.
 
-[Image: VTC graph showing PMOS/NMOS regions]
+<img width="891" height="481" alt="Screenshot 2025-07-18 145547" src="https://github.com/user-attachments/assets/479d07a2-253f-492c-95ba-79cd29dfd0c5" />
 
 In the graph above, we can identify the operating regions for PMOS and NMOS. The current flows in different directions for NMOS and PMOS.
+
+<img width="732" height="281" alt="Screenshot 2025-07-18 145720" src="https://github.com/user-attachments/assets/a0b0ba61-9fe5-4410-8378-37e386d6beba" />
 
 #### Static and dynamic simulation of CMOS inverter
 
@@ -943,87 +968,103 @@ Dynamic simulation provides insights into the rise and fall delays of a CMOS inv
 
 The simulation will plot a Time vs. Voltage graph, from which we can calculate the rise and fall delays.
 
-[Image: Dynamic simulation Time vs. Voltage graph]
+<img width="532" height="435" alt="Screenshot 2025-07-18 154136" src="https://github.com/user-attachments/assets/09d47ced-0876-4319-a771-99349149528f" />
+
+<img width="856" height="384" alt="Screenshot 2025-07-18 154508" src="https://github.com/user-attachments/assets/907ee7e5-0383-488e-b12b-a9e8ea783ed9" />
 
 #### Lab steps to git clone vsdstdcelldesign
 
 To clone the repository, copy the clone address from the repository's page and paste it into the OpenLane terminal after the `git clone` command. This will create a folder named "vsdstdcelldesign" within your OpenLane directory.
+
+<img width="960" height="1015" alt="Screenshot 2025-07-18 155157" src="https://github.com/user-attachments/assets/50a7b00b-9890-49a1-9ffb-b3a8a1a96036" />
+
 If you check your OpenLane directory, you will now find the `vsdstdcelldesign` folder.
 Navigating into the `vsdstdcelldesign` folder reveals files such as `.mag` files and `libs` files.
+
+<img width="961" height="1017" alt="Screenshot 2025-07-18 155359" src="https://github.com/user-attachments/assets/a9456aa5-d7fd-4d42-97c9-68b19cb15f04" />
+
 Before opening the `.mag` file to inspect the layers used for building the inverter, you need the technology file. Copy this file from the specified address using the `cp` command to the destination provided.
 
-[Image: Terminal output showing file copy]
+<img width="957" height="1015" alt="Screenshot 2025-07-18 155503" src="https://github.com/user-attachments/assets/9fed2895-9481-4039-997c-53e307011e85" />
 
 The output confirms that the file has been successfully copied into the `vsdstdcelldesign` folder.
+
+<img width="959" height="1014" alt="Screenshot 2025-07-18 161015" src="https://github.com/user-attachments/assets/e0b0f1a2-f98f-453c-a5d2-973f775d0c53" />
+
 Now, you can open the layout in Magic without needing to type the full tech file path, as it's locally copied.
 
-[Image: Magic layout of CMOS inverter]
+<img width="953" height="1015" alt="Screenshot 2025-07-18 162108" src="https://github.com/user-attachments/assets/3b460b27-b94b-4665-967d-12a498b75b8a" />
 
 You can now view the CMOS inverter layout in Magic, as shown above.
 
-#### Inception of layout & CMOS fabrication process
+#### Inception of layout and CMOS fabrication process
 
-**Create Active regions**
+#### Create Active regions
 1) **Selecting a substrate:** We start with a P-type silicon substrate, characterized by high resistivity (5-50 ohm) and a (100) orientation.
 
 2) **Creating active region for transistor:** These are the regions where PMOS and NMOS transistors will be formed. On the P-type substrate, small pockets, known as active regions, are created to house these transistors. Isolation is established between each of these pockets.
 The isolation layer is created by depositing a silicon dioxide (SiO2) layer (approximately 40nm thick) onto the substrate, followed by a silicon nitride (Si3N4) layer (around 80nm thick) on top of the SiO2.
 
+<img width="780" height="379" alt="Screenshot 2025-07-18 200726" src="https://github.com/user-attachments/assets/3d5ccc7a-ac2f-4f18-b64e-578eeb8927d0" />
+
 Before creating the pockets, identify the precise regions where they are needed. Then, a photoresist layer (approximately 1um thick) is deposited, onto which Mask 1 is patterned using UV light.
 
-[Image: Photoresist patterning with Mask 1]
+<img width="767" height="398" alt="Screenshot 2025-07-18 201320" src="https://github.com/user-attachments/assets/cd3d610c-ab2e-44c5-9d30-ad89a4945e90" />
 
 Unwanted areas are exposed using UV light, and the exposed photoresist is subsequently washed away, leaving the desired pattern.
 
-[Image: Photoresist pattern after washing]
+<img width="607" height="322" alt="Screenshot 2025-07-18 201449" src="https://github.com/user-attachments/assets/032d756e-2512-4f8a-b4f6-6650128f2481" />
 
 In the next step, the remaining photoresist is removed, and the Si3N4 layer in the exposed areas is etched.
 
-[Image: Etching Si3N4 layer]
+<img width="607" height="312" alt="Screenshot 2025-07-18 201602" src="https://github.com/user-attachments/assets/e8ea85cd-b1fc-43a6-8445-197c38b57581" />
 
 Now, the photoresist is chemically removed, as the Si3N4 layer itself acts as a protective layer for the SiO2 underneath. The wafer is then placed in an oxidation furnace. If we perform the LOCOS (Local Oxidation of Silicon) process, the exposed SiO2 will grow, forming what is known as a "bird's beak." This grown SiO2 provides effective isolation between two PMOS and NMOS transistors, preventing unwanted communication between them.
 
-[Image: LOCOS process showing SiO2 growth and bird's beak]
+<img width="728" height="369" alt="Screenshot 2025-07-18 202114" src="https://github.com/user-attachments/assets/74076b7b-a633-4e24-8d5f-88fb9291ec64" />
 
 The final step in this phase is to remove the Si3N4 using hot phosphoric acid.
 
-[Image: Si3N4 removal]
+<img width="777" height="311" alt="Screenshot 2025-07-23 192903" src="https://github.com/user-attachments/assets/a3cc79fb-cb32-4757-b227-0bc64eb4c92d" />
 
-**Formation of N-well and P-well**
+#### Formation of N-well and P-well
 3) **N-well and P-well formation:** N-wells and P-wells cannot be formed simultaneously. One region must be protected by photoresist while the other is formed. Mask 2 and UV light are used to pattern the photoresist for P-well formation.
 
-[Image: Mask 2 patterning for P-well]
+<img width="991" height="574" alt="Screenshot 2025-07-23 193017" src="https://github.com/user-attachments/assets/fc00c5c1-7063-4e00-ab14-7cb1e9e8b084" />
+
 
 The area intended for P-well formation is now exposed. The mask is removed, and Boron ions are implanted (at approximately 200keV) to create the P-implant. This is still a P-implant at this stage. High-temperature annealing is then performed to fully form the P-well.
 
-[Image: P-implant formation and P-well]
+<img width="802" height="385" alt="Screenshot 2025-07-18 233729" src="https://github.com/user-attachments/assets/10d34234-c888-48c6-ad4e-577c2c5a3c2d" />
 
 A similar process is followed to form the N-well, using Mask 3 and Phosphorus ions.
 
-[Image: Mask 3 patterning and N-well formation]
+<img width="791" height="385" alt="Screenshot 2025-07-18 233931" src="https://github.com/user-attachments/assets/00b6e125-ca63-4f7d-8a8d-839ba01275bc" />
 
 The depth of the wells is not yet defined. By subjecting the wafer to a high-temperature furnace (during drive-in diffusion), the desired depth of the wells is established.
 
-**Formation of gate terminal**
+<img width="1000" height="410" alt="Screenshot 2025-07-23 193646" src="https://github.com/user-attachments/assets/59246290-5a97-4822-a9ba-47afbf1b68c2" />
+
+#### Formation of gate terminal
 4) **Gate formation:** The gate terminal is the most critical part of PMOS and NMOS transistors, as it controls the threshold voltage. Both the doping concentration and oxide capacitance influence the threshold voltage.
 First, the doping concentration is controlled using Mask 4 and Boron ion implantation at lower energy (approximately 60keV).
 
-[Image: Boron ion implantation for gate doping]
+<img width="716" height="373" alt="Screenshot 2025-07-18 234807" src="https://github.com/user-attachments/assets/adb7edbb-0921-41ec-92aa-00cde67e23c8" />
 
 The same process is repeated for the N-well using Mask 5 and Arsenic ions.
 
-[Image: Arsenic ion implantation for N-well gate doping]
+<img width="761" height="394" alt="Screenshot 2025-07-18 234939" src="https://github.com/user-attachments/assets/762bf596-cc7c-4406-ba30-b2875ce954a4" />
 
 Next, the oxide layer needs to be prepared. However, the existing oxide layer may have been damaged by previous processes. Therefore, the damaged layer is first removed using an HF solution, and then a new, high-quality oxide layer of the same thickness is re-grown.
 The final step involves depositing a polysilicon layer over the oxide layer. This polysilicon is intentionally doped with more impurities to achieve a low-resistance gate terminal. This polysilicon layer is then etched using Mask 6 and photoresist.
 
-[Image: Polysilicon etching with Mask 6]
+<img width="1002" height="606" alt="Screenshot 2025-07-23 193656" src="https://github.com/user-attachments/assets/3fd00f9a-439f-4a36-b687-5a13e2eac63c" />
 
 After etching and removing the photoresist, the gate terminal takes its final shape.
 
-[Image: Final gate terminal structure]
+<img width="658" height="309" alt="Screenshot 2025-07-18 235729" src="https://github.com/user-attachments/assets/b825758c-f71c-4031-aace-5c521dde31ca" />
 
-**Lightly doped drain (LDD) formation**
+#### Lightly doped drain (LDD) formation
 5) **LDD formation:** The objective here is to create specific doping profiles: P+, P-, N for PMOS and N+, N-, P for NMOS. This specific doping profile is crucial for mitigating two key effects:
 
 * Hot electron effect
@@ -1031,103 +1072,105 @@ After etching and removing the photoresist, the gate terminal takes its final sh
 
 For LDD formation, ion implantation is performed in the P-well using Mask 7 and phosphorus as the lightly doping ion.
 
-[Image: LDD implantation in P-well with Mask 7]
+<img width="729" height="402" alt="Screenshot 2025-07-19 001012" src="https://github.com/user-attachments/assets/e9a140db-accd-44e9-a951-176a683d2a21" />
 
 The same process is repeated for the N-well, using Mask 8 and Boron ions.
 
-[Image: LDD implantation in N-well with Mask 8]
+<img width="745" height="391" alt="Screenshot 2025-07-19 001128" src="https://github.com/user-attachments/assets/76d8719e-7c26-4a15-a884-a9dabc75f2f0" />
 
 To protect the structure of the P-implant and N-implant, spacers are created. This involves depositing a thick SiO2 or Si3N4 layer over the gate terminal.
 
-[Image: SiO2/Si3N4 deposition for spacers]
+<img width="705" height="283" alt="Screenshot 2025-07-19 001301" src="https://github.com/user-attachments/assets/1c2111d8-3bb5-45f8-a63d-64c4e3cfee87" />
 
 Subsequently, Plasma Anisotropic Etching is performed, leading to the formation of side-wall spacers.
 
-[Image: Side-wall spacers formed after etching]
+<img width="646" height="279" alt="Screenshot 2025-07-19 001319" src="https://github.com/user-attachments/assets/24499d8d-c138-49f6-8b88-2cda6a9181d6" />
 
-**Source & drain formation**
+#### Source and drain formation
 6) **Source-drain formation:**
 The next step is to deposit a very thin screen oxide layer to prevent channeling effects.
 
-[Image: Screen oxide layer deposition]
+<img width="774" height="360" alt="Screenshot 2025-07-19 001801" src="https://github.com/user-attachments/assets/1ea08237-3438-4af0-b388-93f4d72ade32" />
 
 To form the drain and source, arsenic ions are again implanted at 75keV using Mask 9 in the P-well to create the N+ implant for PMOS.
 
-[Image: N+ implant for PMOS Source/Drain]
+<img width="689" height="389" alt="Screenshot 2025-07-19 002159" src="https://github.com/user-attachments/assets/5502d508-78ad-4e9c-ae27-379279c58ed0" />
 
 The same process is repeated for NMOS, using Mask 10 and boron ions in the N-well at 50keV to create the P+ implant.
 
-[Image: P+ implant for NMOS Source/Drain]
+<img width="680" height="373" alt="Screenshot 2025-07-19 002314" src="https://github.com/user-attachments/assets/5eaa944e-1735-4483-9770-3a5a7bb2df7b" />
 
 This partially fabricated CMOS is then subjected to high-temperature annealing (1000 degrees Celsius). During this step, the P+ implant and N+ implant regions fully form the source and drain terminals.
 
-[Image: Annealing process showing Source/Drain formation]
+<img width="821" height="388" alt="Screenshot 2025-07-19 002636" src="https://github.com/user-attachments/assets/bf59c9a7-84a3-49c1-b10e-63ae5ca358ae" />
 
-**Local interconnect formation**
+#### Local interconnect formation
 7) **Steps to form contacts and local interconnects:**
 The first step is to remove the thin screen oxide layer through etching. Then, titanium (Ti) is deposited using sputtering. Titanium is chosen for its very low resistivity.
 
-[Image: Titanium deposition]
+<img width="792" height="356" alt="Screenshot 2025-07-19 012919" src="https://github.com/user-attachments/assets/184b7d30-a0d9-4316-91bd-58f38cd45594" />
 
 The next step involves a reaction between the Ti layer and the source, gate, and drain regions of the CMOS. This is achieved by heating the wafer to approximately 650-700 degrees Celsius in an N2 ambient for about 60 seconds. After the reaction, titanium silicide is formed over the wafer. Another reaction occurs between Ti and N, resulting in TiN (Titanium Nitride), which is used for local communication.
 
-[Image: Titanium silicide and TiN formation]
+<img width="827" height="378" alt="Screenshot 2025-07-19 013054" src="https://github.com/user-attachments/assets/f4d38238-b55e-4165-a75b-69c1e9b4a23e" />
 
 Using Mask 11 and photoresist, the TiN layer is etched to create specific contacts. The etching of TiN is completed using RCA cleaning.
 
-[Image: TiN etching and contact formation]
+<img width="645" height="399" alt="Screenshot 2025-07-19 013519" src="https://github.com/user-attachments/assets/12095955-70cf-4de2-a6c7-7837d58d2468" />
 
 After etching and removing the photoresist, the local interconnects are fully formed.
 
-[Image: Final local interconnects]
+<img width="718" height="374" alt="Screenshot 2025-07-19 014014" src="https://github.com/user-attachments/assets/008b2138-b6cc-489e-851c-b9f1bfb087b9" />
 
-**Higher level metal formation**
+#### Higher level metal formation 
 8) **Higher level metal formation:** These steps are very similar to the previous ones. The first thing to note is that the surface is currently non-planar. This non-planar surface is unsuitable for metal interconnects due to potential problems with metal discontinuity. Therefore, the surface must be planarized. This is done by depositing a thick layer of SiO2 with some impurities to make it less resistive, followed by CMP (Chemical Mechanical Polishing) to achieve a planar surface.
 
-[Image: Planarization using SiO2 and CMP]
+<img width="725" height="386" alt="Screenshot 2025-07-19 014435" src="https://github.com/user-attachments/assets/e5bdb4f1-f103-4807-892b-80779b1c33c1" />
 
 Now, using Mask 12 and photoresist, the SiO2 layer is etched to prepare for metal deposition.
 
-[Image: SiO2 etching for metal deposition]
+<img width="745" height="396" alt="Screenshot 2025-07-19 014634" src="https://github.com/user-attachments/assets/7975d22e-b6df-47fa-a35c-89dfe4f4c8b4" />
 
 After removing the photoresist, a thin layer of TiN (approximately 10nm) is deposited over the wafer. TiN acts as an excellent adhesion layer for SiO2 and also serves as a barrier between the bottom and top layers of metal interconnects.
 
-[Image: TiN deposition]
+<img width="672" height="382" alt="Screenshot 2025-07-19 014955" src="https://github.com/user-attachments/assets/e56ad1ec-bcdc-4173-992f-c3f0a4edfc1a" />
 
 The next step involves depositing a blanket tungsten (W) layer over the wafer, followed by CMP to planarize the surface.
 
-[Image: Tungsten deposition and CMP]
+<img width="676" height="322" alt="Screenshot 2025-07-19 015236" src="https://github.com/user-attachments/assets/6c1837d8-aac7-4b48-9fac-6703725c78b2" />
 
 This tungsten layer forms contact holes, which need to connect to the higher metal layers. Therefore, an Aluminum (Al) layer is then deposited.
 
-[Image: Aluminum layer deposition]
+<img width="823" height="388" alt="Screenshot 2025-07-19 015345" src="https://github.com/user-attachments/assets/7bbd5d0d-b84c-4aaa-9d02-a09993a34fbb" />
 
 Using Mask 13 and photoresist, the tungsten layer is etched to form contacts at specific locations via Plasma etching.
 
-[Image: Tungsten etching for contacts]
+<img width="651" height="342" alt="Screenshot 2025-07-19 015620" src="https://github.com/user-attachments/assets/37760bcb-f235-4636-a7ac-6037f8d9cd53" />
 
 This completes our first level of metal interconnects. The same process is repeated to deposit the second level of metal interconnects, using Mask 14 for etching SiO2 and Mask 15 for etching the Al layer.
 
-[Image: Second level metal interconnect formation]
+<img width="665" height="394" alt="Screenshot 2025-07-19 015859" src="https://github.com/user-attachments/assets/650a49f6-940f-4008-9354-1fdbeea80af6" />
 
 The upper Al layer is typically thicker compared to the lower Al layer. Finally, another layer of SiO2 or Si3N4 is deposited to protect the chip.
 
-[Image: Final protective layer]
+<img width="616" height="393" alt="Screenshot 2025-07-19 020205" src="https://github.com/user-attachments/assets/ae2089bc-a1b5-451e-9cf7-c14f73297a1e" />
 
 And finally, our CMOS looks like this after the fabrication process.
 
-[Image: Final fabricated CMOS device]
+<img width="781" height="490" alt="Screenshot 2025-07-19 020252" src="https://github.com/user-attachments/assets/d1f5003b-2102-41b8-88c2-34ebb35a996e" />
 
 #### Lab introduction to Sky130 basic layers layout and LEF using inverter
+
+<img width="953" height="1015" alt="Screenshot 2025-07-19 021201" src="https://github.com/user-attachments/assets/5cdfdef7-cdc7-46f0-b783-71d1368efa3a" />
 
 In Sky130, each color represents a different layer. The first layer, local interconnect, is shown in blue-purple. Metal 1 is light purple, and Metal 2 is pink. N-well is depicted by a solid dashed line, green for the N-diffusion region, and red for the polysilicon gate. Similarly, brown indicates the P-diffusion.
 In the tkcon window, you can select an area (e.g., NMOS) and verify its details. You can perform similar checks for PMOS to ensure the CMOS is functioning correctly.
 
-[Image: tkcon output showing NMOS details]
+<img width="957" height="1018" alt="Screenshot 2025-07-19 021542" src="https://github.com/user-attachments/assets/66a36bd2-d02c-43c3-92ea-cc59d974a707" />
 
 You can also check the output terminal by double-pressing "S" to select the entire output "Y".
 
-[Image: tkcon output for output terminal "Y"]
+<img width="957" height="1019" alt="Screenshot 2025-07-19 022121" src="https://github.com/user-attachments/assets/995aad3d-d53c-40ed-8980-01e890732f9f" />
 
 The output confirms that "Y" is attached to locali in the cell definition sky130_inv.
 You can verify if the source of the PMOS is connected to ground, and similarly for the NMOS.
@@ -1136,23 +1179,21 @@ You can verify if the source of the PMOS is connected to ground, and similarly f
 
 To extract the file, type the command `extract all` in the tkcon window.
 
-[Image: tkcon command for extraction]
+<img width="956" height="1017" alt="Screenshot 2025-07-19 101847" src="https://github.com/user-attachments/assets/9df4d0ef-9b96-413e-9914-9d44377b2f8a" />
 
 Navigate to this location from the terminal to find the extracted file.
 
-[Image: Terminal output showing extracted file]
+<img width="955" height="1017" alt="Screenshot 2025-07-19 101927" src="https://github.com/user-attachments/assets/7bdc726a-6103-4c50-972d-0f03b9f750e9" />
 
 We will use this `.ext` file to create a SPICE file compatible with the ngspice tool. For this, first apply the command `ext2spice cthresh 0 rthresh 0`. This command itself will not create a new file. Then, type the `ext2spice` command again in the tkcon window.
 
-[Image: tkcon commands for ext2spice]
-
 Now, check the specified location to find the newly created SPICE file.
 
-[Image: Terminal output showing SPICE file creation]
+<img width="953" height="1020" alt="Screenshot 2025-07-19 102120" src="https://github.com/user-attachments/assets/02a187f9-62db-4822-9a1d-5878a5ea6442" />
 
 To view the contents of the SPICE file, use `vim sky130_inv.spice`.
 
-[Image: Contents of sky130_inv.spice]
+<img width="958" height="1017" alt="Screenshot 2025-07-19 102237" src="https://github.com/user-attachments/assets/fe9c2333-ca04-412d-844e-02cecc230b7c" />
 
 #### Sky130 Tech File Labs
 
@@ -1161,28 +1202,30 @@ To view the contents of the SPICE file, use `vim sky130_inv.spice`.
 In the SPICE deck, you can see all the details regarding the connectivity of the NMOS and PMOS transistors, as well as the power supply.
 X0 represents the NMOS, and X1 represents the PMOS. Their connectivity is shown as GATE-DRAIN-SUBSTRATE-SOURCE.
 
-[Image: SPICE deck details]
+<img width="959" height="1020" alt="Screenshot 2025-07-19 110617" src="https://github.com/user-attachments/assets/81002f28-c6cb-4b00-8338-6862e9ca95e6" />
 
 Now, we need to include the PMOS and NMOS library files, which are located inside the `libs` folder within the `vsdstdcellsdesign` directory.
 
-[Image: Library file paths]
+<img width="957" height="1019" alt="Screenshot 2025-07-19 110702" src="https://github.com/user-attachments/assets/6c679e7b-c7f3-4fcf-a018-50a590e8e290" />
 
 Include these files in the terminal using the commands `.include ./libs/pshort.lib` and `.include ./libs/nshort.lib`.
 Set the supply voltage VDD to 3.3V using the command `VDD VPWR 0 3.3V`. Similarly, set the value for VSS.
 Next, specify the input signals, for example: `Va A VGND PULSE(0V 3.3V 0 0.1ns 2ns 4ns)`.
 Also, include simulation analysis commands like `.tran 1n 20n`, `.control`, `run`, `.endc`, and `.end`.
 
+<img width="957" height="1013" alt="Screenshot 2025-07-19 120400" src="https://github.com/user-attachments/assets/5edf2e97-6a56-4f89-9258-826bbd753f84" />
+
 After running this file, you will get the output from ngspice.
 
-[Image: ngspice output]
+<img width="954" height="1016" alt="Screenshot 2025-07-19 122527" src="https://github.com/user-attachments/assets/223eea17-3844-4668-82a4-25a9fa9fa51b" />
 
 Now, plot the graph using the command `plot y vs time a`.
 
-[Image: Initial VTC plot]
+<img width="956" height="1012" alt="Screenshot 2025-07-19 123321" src="https://github.com/user-attachments/assets/d0d9cd71-576b-4ac2-9e4e-b479852dc309" />
 
 If you increase the C3 value from 0.024fF to 2fF, the graph becomes smoother, as shown below.
 
-[Image: Smoother VTC plot with increased C3]
+<img width="957" height="1019" alt="Screenshot 2025-07-19 123803" src="https://github.com/user-attachments/assets/a10149a6-e0a6-479f-850e-4f33c819e09f" />
 
 #### Lab steps to characterize inverter using sky130 model files
 
@@ -1195,25 +1238,25 @@ Here, we aim to find the values for four key parameters:
 
 **Rise Time:** This is the time taken for the output waveform to transition from 20% to 80% of its final value.
 
-[Image: Waveform illustrating rise time calculation]
+<img width="315" height="71" alt="Screenshot 2025-07-19 124700" src="https://github.com/user-attachments/assets/83c7a01d-6b74-4a17-9b5b-34a84aa507da" />
 
 So, the rise time = (2.2489 - 2.1819)e-09 = 66.92 psec.
 
 **Fall Time:** This is the time taken for the output waveform to transition from 80% to 20% of its initial value.
 
-[Image: Waveform illustrating fall time calculation]
+<img width="306" height="71" alt="Screenshot 2025-07-19 125456" src="https://github.com/user-attachments/assets/fbe258ee-5a94-4290-ad32-feee1f7dded3" />
 
 So, the fall time = (4.09512 - 4.05264)e-09 = 42.51 psec.
 
 **Propagation Delay:** This is the time difference between the 50% point of the input waveform and the 50% point of the output waveform.
 
-[Image: Waveform illustrating propagation delay calculation]
+<img width="277" height="69" alt="Screenshot 2025-07-19 125528" src="https://github.com/user-attachments/assets/b435fbfd-9fea-4f7c-ba7a-3010944c7b5d" />
 
 So, the propagation delay = (2.2106 - 2.15012)e-09 = 60.48 psec.
 
 **Cell Fall Delay:** This is the time taken for the output to fall to 50% when the input is rising to 50%.
 
-[Image: Waveform illustrating cell fall delay calculation]
+<img width="267" height="71" alt="Screenshot 2025-07-19 130037" src="https://github.com/user-attachments/assets/56adf53d-81d8-4228-bf29-b15fd6d4b95d" />
 
 So, the cell fall delay = (4.07735 - 4.04988)e-09 = 27.47 psec.
 We have successfully characterized our inverter. Our next objective is to create a LEF file using the layout, which we will then integrate into the picorv32a core.
@@ -1248,6 +1291,8 @@ Follow these steps:
     ls -al
     ```
 
+<img width="954" height="1022" alt="Screenshot 2025-07-19 162630" src="https://github.com/user-attachments/assets/513474c8-4900-4c87-b50e-eff4ebc9766e" />
+
 6.  To view the `.magicrc` file, use the command `gvim .magicrc`. This file serves as the startup script for Magic, instructing it where to find the technology file. Since the technology file is already available locally in the same directory, you can make changes to it if needed.
 7.  To start the Magic tool with enhanced graphics, use the command:
 
@@ -1255,7 +1300,7 @@ Follow these steps:
     magic -d XR &
     ```
 
-[Image: Content of .magicrc file]
+<img width="957" height="1016" alt="Screenshot 2025-07-19 163238" src="https://github.com/user-attachments/assets/b622f469-3e3b-45d6-aafb-9cc599f4408b" />
 
 The content of the `.magicrc` file using the `vi .magicrc` command is shown above.
 
@@ -1264,76 +1309,75 @@ The content of the `.magicrc` file using the `vi .magicrc` command is shown abov
 Use the command `magic -d XR` to open the Magic tool.
 Open the `met3.mag` file from the file menu. You will observe different layouts with varying DRC values, identified by rule numbers.
 
-[Image: Magic layout with DRC rule numbers]
+<img width="954" height="1017" alt="Screenshot 2025-07-19 163639" src="https://github.com/user-attachments/assets/938174ee-a71e-4a7c-8d66-0870255c21bf" />
 
 These rule numbers can be found in the Google-SkyWater documentation.
 
-[Image: Google-SkyWater documentation showing rule numbers]
+<img width="1918" height="972" alt="Screenshot 2025-07-19 165013" src="https://github.com/user-attachments/assets/babc5c1e-a5e5-4bb7-b247-06b142f668fb" />
 
 Now, select any layout area and check for DRC violations using `drc why` in the tkcon window.
 
-[Image: tkcon output from drc why command]
+<img width="954" height="1016" alt="Screenshot 2025-07-19 173047" src="https://github.com/user-attachments/assets/adf51e5e-09b7-4079-a151-a45e76b4db5c" />
 
 Next, select a blank area and hover the mouse pointer over the metal3 contact icon. Press the 'p' button and type 'pek' in the tkcon. Then execute the command `cif see VIA2` in the tkcon tab.
 You will observe a series of black squares appearing inside the area.
 
-[Image: Magic layout after cif see VIA2 command]
+<img width="955" height="1023" alt="Screenshot 2025-07-19 202400" src="https://github.com/user-attachments/assets/b3989618-ba16-4834-8eaa-2a41828fe4fe" />
 
 #### Lab exercise to fix poly.9 error in Sky130 tech-file
 
 Now, open the `poly.mag` file in the Magic tool using the command `load poly.mag` in the tkcon terminal.
 
-[Image: Magic layout for poly.mag]
+<img width="954" height="1013" alt="Screenshot 2025-07-19 202919" src="https://github.com/user-attachments/assets/51f0c3a1-9388-463d-bf5b-b0614889dc57" />
 
 Consider the rule poly.9 and consult the website for details on this specific rule.
 
-[Image: Website content for poly.9 rule]
+<img width="958" height="1012" alt="Screenshot 2025-07-19 203000" src="https://github.com/user-attachments/assets/87ce9293-2c3d-499c-9194-7925c642d428" />
+
+<img width="1919" height="972" alt="Screenshot 2025-07-19 203105" src="https://github.com/user-attachments/assets/1ca44ce1-a03a-4447-8477-497c89b99ed9" />
 
 To identify the error, examine the `sky130A.tech` file, located in the `drc_tests` directory. You can open this file with a Linux text editor.
 
-[Image: sky130A.tech file content]
+<img width="956" height="1016" alt="Screenshot 2025-07-19 204246" src="https://github.com/user-attachments/assets/5828cf65-818e-4cc7-b725-e9c987cae8f7" />
 
 Search for 'poly.9' within the `sky130A.tech` file. It appears in both the POLY and uhrpoly sections, where the rules are incorrectly defined. Make the necessary changes in both sections.
 
-[Image: Modified sky130A.tech content]
+<img width="957" height="1017" alt="Screenshot 2025-07-19 210231" src="https://github.com/user-attachments/assets/69ae7159-afc4-4c3f-afb6-4b6150327e06" />
 
 After modifying the `sky130A.tech` file, save and close the editor.
 Next, execute the command `tech load sky130A.tech` in the tkcon terminal. Then, run the DRC check as shown below.
 
-[Image: DRC check command and output]
+<img width="956" height="1017" alt="Screenshot 2025-07-19 211214" src="https://github.com/user-attachments/assets/4b5ac590-75f6-48f4-bf3c-14f8896bad75" />
 
 #### Lab exercise to implement poly resistor spacing to diff and tap
 
 To correctly implement poly resistor spacing, you will need to modify the `sky130A.tech` file again.
 
-[Image: sky130A.tech content for poly resistor spacing]
+<img width="963" height="1012" alt="Screenshot 2025-07-19 215520" src="https://github.com/user-attachments/assets/81292674-fe93-4216-8b67-0baebbec0621" />
 
 Now, execute the necessary commands in Tkcon after saving the file.
 
-[Image: tkcon output after executing commands]
+<img width="885" height="339" alt="Screenshot 2025-07-19 215646" src="https://github.com/user-attachments/assets/65b6919a-fada-4d8d-8604-40c7998fc002" />
 
 To check for errors, you can create a copy of the poly.9 model from the `poly.mag` file within the Magic window.
 
-[Image: Magic window showing poly.9 model copy]
+<img width="956" height="1012" alt="Screenshot 2025-07-19 235950" src="https://github.com/user-attachments/assets/f11ff572-7f05-4fc9-9ceb-6e022a543585" />
 
 To find the description of a DRC error, select the area containing the error in the Magic window, then run the command `drc why` in the tkcon terminal.
 This command will provide a description of the error.
-
-[Image: tkcon output with DRC error description]
 
 #### Lab challenge exercise to describe DRC error as geometrical construct
 
 Now, we will make the following changes in the `sky130A.tech` file:
 
-[Image: sky130A.tech content for nwell.6 modification]
+<img width="958" height="1013" alt="Screenshot 2025-07-20 005159" src="https://github.com/user-attachments/assets/014470c2-e44e-4904-8f81-c077b2df3950" />
 
 To locate the nwell.6 model error, open the `nwell.mag` file in the Magic tool. In the figure, the deep n-well is depicted by yellow stripes, and the n-well by a dotted green pattern.
 
-[Image: nwell.mag showing deep n-well and n-well]
+<img width="958" height="1014" alt="Screenshot 2025-07-20 005301" src="https://github.com/user-attachments/assets/5baa58f2-f1fa-472b-bdfd-8ca7656bbb9a" />
 
 This error can also be observed directly at the site.
 
-[Image: Error visible at site]
 
 #### Lab challenge to find missing or incorrect rules and fix them
 
@@ -1551,7 +1595,7 @@ We will then run the `expand` command in the tkcon window.
 
 #### Timing analysis with ideal clocks using openSTA
 
-**Setup timing analysis and introduction to flip-flop setup time**
+#### Setup timing analysis and introduction to flip-flop setup time 
 Timing analysis (with ideal clock): Let's begin the setup analysis with an ideal, single clock. The clock specifications are:
 * Clock frequency = 1 GHz
 * Clock period = 1 ns
@@ -1706,7 +1750,7 @@ report_checks -fields {net cap slew input_pins} -digits 4
 
 #### Clock tree synthesis TritonCTS and signal integrity
 
-**Clock tree routing and buffering using H-Tree algorithm**
+#### Clock tree routing and buffering using H-Tree algorithm
 **Clock tree synthesis:** This involves physically connecting clk1 to sequential elements like FF1 & FF2 of Stage 1, and FF1 of Stage 3 & FF2 of Stage 4.
 
 <img width="879" height="430" alt="Screenshot 2025-07-21 120257" src="https://github.com/user-attachments/assets/bba38ba7-0ce7-42af-9353-3eb8a4e79cac" />
@@ -1729,7 +1773,7 @@ The first step involves removing the existing clock route and placing two repeat
 
 <img width="895" height="441" alt="Screenshot 2025-07-21 130016" src="https://github.com/user-attachments/assets/54f9135a-f365-43c5-aa78-bff55e5b7722" />
 
-**Crosstalk and clock net shielding**
+#### Crosstalk and clock net shielding
 **Clock Net Shielding:** Our objective is to design the clock tree such that the skew between the launch flip-flop and capture flip-flop is 0. Skew refers to the latency difference between the clock ports of the flip-flop pins. Clock net shielding is a critical aspect in design. We essentially "shield" a particular clock net, protecting it from external interference, much like providing a "house" for the clock.
 
 <img width="605" height="433" alt="Screenshot 2025-07-21 130606" src="https://github.com/user-attachments/assets/c4e0493a-b413-4131-a03b-db35b69b07a2" />
@@ -1746,7 +1790,7 @@ We observe that a delta delay occurs due to a "bump" when the signal switches fr
 
 By implementing shielding, we effectively break the coupling capacitance between the aggressor and victim nets. Shields are designed not to switch, further enhancing isolation.
 
-#### Lab steps to run CTS using Triton
+#### Lab steps to run CTS using TritonCTS
 
 We now need to replace the old netlist with the newly generated netlist (which resulted from slack reduction). Following this, we will run floorplan, placement, and Clock Tree Synthesis (CTS).
 
@@ -1841,7 +1885,7 @@ You can now observe that this database file is present in the OpenLane directory
 
 #### Timing analysis with real clock using openSTA
 
-**Setup timing analysis using real clocks**
+#### Setup timing analysis using real clocks
 With a real clock, the circuit tree differs slightly from an ideal clock scenario, as it includes buffers and wires. The clock signal does not reach the launch or capture flip-flop at exactly t=0 due to delays introduced by these buffers.
 The combinational circuit equation, initially θ < T for an ideal clock, becomes (θ + Δ1) < (T + Δ2).
 
@@ -1866,7 +1910,7 @@ When incorporating a real-time clock, the equation changes to (θ + Δ1) > (H + 
 
 <img width="773" height="441" alt="Screenshot 2025-07-21 154007" src="https://github.com/user-attachments/assets/9c2301c7-3637-44b6-bc95-fbeeeb50bcb2" />
 
-**Hold timing analysis using real clocks**
+#### Hold timing analysis using real clocks
 The combinational delay should be greater than the hold time of the capture flip-flop.
 Once the clock reaches the launch flip-flop, it incurs approximately two buffer delays (Δ1). When it reaches the capture flip-flop, it incurs about three buffer delays (Δ2). The uncertainty value remains consistent for both flip-flops because the clock is applied from the same edge. Now, let's add the uncertainty value.
 
@@ -2158,7 +2202,7 @@ The Detailed route is performed by the TritonRoute engine. A, B, C, and D are fo
 
 #### TritonRoute Features
 
-**TritonRoute feature 1 - Honors pre-processed route guides**
+#### TritonRoute feature 1 Honors preprocessed route guides
 TritonRoute performs initial detailed routing.
 It honors the preprocessed route guides, which are obtained after the fast routing stage.
 
@@ -2175,7 +2219,7 @@ Two guides are considered connected if:
 
 TritonRoute operates based on a proposed MILP (Mixed-Integer Linear Programming)-based panel-routing scheme, incorporating an intra-layer parallel and inter-layer sequential routing framework.
 
-**TritonRoute Feature2 & 3 - Inter-guide connectivity and intra- & inter-layer routing**
+#### TritonRoute Feature 2 and 3 Inter guide connectivity and intra and inter layer routing
 Each unconnected terminal (i.e., pin of a standard-cell instance) should have its pin shape overlapped by a route guide.
 
 <img width="298" height="153" alt="Screenshot 2025-07-21 224047" src="https://github.com/user-attachments/assets/fbc25061-1cb8-4866-a43c-ba98207744ac" />
