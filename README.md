@@ -1,4 +1,4 @@
-# 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
+<img width="880" height="486" alt="Screenshot 2025-07-17 202352" src="https://github.com/user-attachments/assets/f4d91e77-8c0c-4045-836b-559602a05889" /><img width="955" height="1011" alt="Screenshot 2025-07-17 200113" src="https://github.com/user-attachments/assets/39b7a3ca-768f-432c-9149-8ef0ebf471ba" /><img width="957" height="1016" alt="Screenshot 2025-07-17 195952" src="https://github.com/user-attachments/assets/c3d70427-13c6-40a2-944a-28f7120120ed" /><img width="427" height="224" alt="Screenshot 2025-07-21 130908" src="https://github.com/user-attachments/assets/41eeace7-2f08-4a11-8faa-9adcdbe939b6" /># 🚀 DIGITAL VLSI SOC DESIGN AND PLANNING  
 
 ## 📝 Introduction
 
@@ -417,6 +417,8 @@ The report indicates the actual time of synthesis completion, and the synthesis 
 
 #### Chip Floor planning consideration
 
+#### Utilization factor and aspect ratio
+
 This section focuses on determining the width and height of the chip's Core and Die, which is the initial step in the physical design flow.
 
 Let's start with a simple netlist, consisting of two flip-flops interconnected by basic combinational logic. A netlist primarily describes the electronic design's connectivity. Our calculations will depend on the physical dimensions of the logic gates (like AND & OR) and the flip-flops involved. The goal is to convert these logical symbols into physical dimensions.
@@ -429,9 +431,13 @@ Assume:
 
 Using these assumed dimensions and the netlist, we can calculate the area the netlist would occupy on a silicon wafer.
 
+<img width="889" height="491" alt="Screenshot 2025-07-17 193615" src="https://github.com/user-attachments/assets/499abbb7-2ec6-4871-8471-c84d26c3259e" />
+
 To estimate the minimum area, we first conceptualize all wires as removed, consolidating all flip-flops and logic gates onto a single plane. After combining them, the total width and length become 2 units each.
 
 This results in a total occupied area of 4 square units. This gives us a rough estimate of the minimum area required by the netlist.
+
+<img width="249" height="212" alt="Screenshot 2025-07-17 193633" src="https://github.com/user-attachments/assets/7bfc4af9-edbf-42c5-862e-fed14a92f9e6" />
 
 #### What is 'Core' and 'Die' section of a chip?
 
@@ -439,6 +445,8 @@ Imagine a silicon wafer where all the logic circuits are implemented. Within thi
 
 A **Die** is a small semiconductor material specimen upon which the fundamental circuit is fabricated. It encompasses the core logic.
 A **Core** is the designated section of the chip where the primary logical design of the circuit is placed.
+
+<img width="349" height="307" alt="Screenshot 2025-07-17 193651" src="https://github.com/user-attachments/assets/733596e7-d1d7-41e4-8d45-dc4357d802f9" />
 
 Now, let's attempt to place our calculated logic (netlist) inside the core. If the netlist occupies the entire core area, it implies a 100% core utilization. From this, we can calculate the Utilization Factor using the formula:
 
@@ -461,6 +469,8 @@ Let's consider different core dimensions: width = 4 units and height = 2 units.
 Using the Utilization Factor formula, we get 0.5. This means the netlist only covers 50% of the core area, leaving space.
 The Aspect Ratio would be 0.5, indicating a rectangular chip.
 The leftover area within the core can be utilized for placing additional cells, such as buffers, or for routing purposes.
+<img width="528" height="309" alt="Screenshot 2025-07-17 193727" src="https://github.com/user-attachments/assets/2aad818e-38ac-465d-917e-32d34b8abfae" />
+
 
 #### Utilization factor and aspect ratio
 
@@ -468,11 +478,17 @@ Let's consider another example: a square chip with dimensions 4x4 square units.
 In this scenario, the utilization factor would be 0.25. This means only 25% of the total chip area is utilized by the netlist, leaving 75% available. This available space can be used for additional cells or for routing, which often involves multiple metal layers.
 The aspect ratio remains 1, confirming the chip's square shape.
 
+<img width="889" height="502" alt="Screenshot 2025-07-17 193846" src="https://github.com/user-attachments/assets/4f2683fa-3427-4462-8868-2e5da22856d5" />
+
 #### Define locations of Preplaced Cells
 
 Consider a large combinational logic circuit performing a specific function, comprised of many logic gates. We can subdivide this large circuit into smaller, manageable blocks. For instance, we can partition the entire circuit into two distinct blocks, to be implemented separately.
 
+<img width="890" height="496" alt="Screenshot 2025-07-17 193901" src="https://github.com/user-attachments/assets/b2ee54ec-5684-4426-bd3c-0abef9cb17f2" />
+
 For both blocks, we can extend their input/output pins. Then, we "black-box" these blocks, effectively detaching them conceptually. Once black-boxed, their internal structure becomes invisible from a higher-level view (e.g., to someone examining the main netlist). These separated blocks can then function as independent IPs (Intellectual Properties) or modules.
+
+<img width="887" height="505" alt="Screenshot 2025-07-17 193913" src="https://github.com/user-attachments/assets/97f0ea19-1289-4669-a6ba-b08a10313864" />
 
 The primary advantage of this approach is reusability: once implemented, these blocks can be reused multiple times across different designs.
 
@@ -492,13 +508,19 @@ Assuming ideal conditions, where Rdd, Ldd (power supply resistance/inductance) a
 
 Due to the inherent resistance (Rdd) and inductance (Ldd) in the power supply path, there will be a voltage drop across them. Consequently, the voltage at an internal node (let's call it Node 'A') might be Vdd' instead of the ideal Vdd.
 
+<img width="634" height="393" alt="Screenshot 2025-07-17 193943" src="https://github.com/user-attachments/assets/ea2424cc-89e1-4ad5-8963-7a8ebb0ab6a9" />
+
 For example, if ideal logic '1' is 1 Volt, it might practically be less, say 0.97 Volts (Vdd'). This deviation can be critical if it falls within the undefined range of Noise Margins (NM low and NM high), posing a significant risk to circuit reliability.
+
+<img width="886" height="498" alt="Screenshot 2025-07-17 194007" src="https://github.com/user-attachments/assets/7ec59b63-0846-4815-9a19-8820cb9ef366" />
 
 To solve this problem, Decoupling Capacitors (Cd) are placed in parallel with the circuit. Whenever the circuit switches, it draws current directly from Cd. Meanwhile, the RL (resistor-inductor) network of the power supply path replenishes the charge into Cd. This ensures that Cd supplies the instantaneous current peaks demanded by the circuit.
 
-[Image: Illustration showing Decoupling Capacitors placement between blocks]
+<img width="675" height="418" alt="Screenshot 2025-07-17 194028" src="https://github.com/user-attachments/assets/64ef2a1b-a709-479e-afa5-a421ccbde3d5" />
 
 In a chip, decoupling capacitors are typically positioned between various functional blocks (e.g., Block A, Block B, and Block C, as shown above). This strategic placement ensures that the local current demands of these blocks are effectively met by the decoupling capacitors, addressing local power fluctuations.
+
+<img width="676" height="465" alt="Screenshot 2025-07-17 194042" src="https://github.com/user-attachments/assets/4bdefe89-f24e-43fc-87f0-b30b035dd6cd" />
 
 #### Power planning
 
@@ -508,17 +530,27 @@ Imagine a signal transmitted from a driver to a load, typically switching from l
 
 Now, consider a 16-bit bus that needs to maintain signal integrity from the driver to the load, requiring sufficient power from the supply. Unlike individual blocks, it's often not feasible to place decoupling capacitors across the entire bus length. If the main power supply is physically distant from the bus, a voltage drop will inevitably occur along the power lines.
 
+<img width="760" height="488" alt="Screenshot 2025-07-17 194106" src="https://github.com/user-attachments/assets/4f42737d-61d1-46af-b236-eb20a1b8588a" />
+
 When a particular line of the 16-bit bus transitions to logic 1, it means its associated capacitor is being charged to Vdd. Conversely, for logic 0, the capacitor is discharged to ground. If this 16-bit bus is connected to an inverter, all initially charged capacitors will discharge, and vice-versa.
+
+<img width="883" height="484" alt="Screenshot 2025-07-17 194123" src="https://github.com/user-attachments/assets/0007cb32-d89c-4068-bc60-cc9d8d4597a9" />
 
 A significant problem arises if all capacitors are connected to a single ground point. During discharge, this can cause a transient increase, or "bump," in the ground reference voltage at the common ground tap point. This phenomenon is known as Ground Bounce. If the magnitude of this bounce exceeds the noise margin, the circuit might enter an undefined state, leading to unpredictable behavior (e.g., it could register as either logic 1 or logic 0).
 
+![Uploading Screenshot 2025-07-17 194137.png…]()
+
 Similarly, when all capacitors that were at 0 volts need to charge to Vdd through a single Vdd tap point, it causes a momentary lowering of the voltage at that Vdd tap point. As long as this voltage drop remains within the noise margin, the system functions correctly. However, if it ventures into an undefined region, the system's behavior becomes unpredictable.
+
+<img width="863" height="477" alt="Screenshot 2025-07-17 194151" src="https://github.com/user-attachments/assets/03e61977-9345-4e56-8a57-5643b916f61f" />
 
 The observed phenomena, which cause a reduction in the supply voltage, occur because power is supplied from a single point.
 
+<img width="782" height="493" alt="Screenshot 2025-07-17 194208" src="https://github.com/user-attachments/assets/b4308245-5912-45b4-a7a3-2f6dd606e4bc" />
+
 The solution to this problem is to use multiple power supplies. This involves creating a power mesh, where each block draws charge from its nearest power supply connection and similarly dumps charge to its nearest ground connection.
 
-[Image: Illustration of a power mesh]
+<img width="892" height="500" alt="Screenshot 2025-07-17 194226" src="https://github.com/user-attachments/assets/9d3a6397-5453-4d19-97cf-3990562f4436" />
 
 The power planning strategy shown above depicts such a mesh.
 
@@ -529,17 +561,21 @@ Consider the designs illustrated below that require implementation. The first ci
 
 Currently, this setup has 4 input ports (Din1, Din2, Clk1, Clk2) and 3 output ports (Dout1, ClkOut, Dout2).
 
-[Image: Design example for pin placement]
+<img width="741" height="398" alt="Screenshot 2025-07-17 194256" src="https://github.com/user-attachments/assets/0f2ddb06-272b-4924-8778-19eec196fda5" />
 
 Let's consider another design requiring implementation. These types of circuits are particularly useful for understanding inter-clock timing analysis. The complete design, as shown below, now features 6 input ports and 5 output ports. The connectivity between gates is defined using HDL (VHDL/Verilog) and is referred to as the 'Netlist'.
 
-[Image: Complete design with additional ports]
+![Uploading Screenshot 2025-07-17 194319.png…]()
 
 We now take this netlist and place it within the core designed earlier. The empty space between the core and the die needs to be filled with pin information. The front-end team defines the netlist connectivity, inputs, and outputs, while the back-end team handles pin placements. According to pin placement guidelines, pre-placed blocks should be located closer to their respective input pins.
+
+<img width="671" height="496" alt="Screenshot 2025-07-17 194341" src="https://github.com/user-attachments/assets/264ff2ef-4ee0-4b5d-9b25-9b980bed10f8" />
 
 One notable observation is that clock input (clock-in) and clock output (clock-out) pins are larger than other input and output pins. This is because input clocks must continuously provide signals to every element on the chip, and output clocks need to transmit signals as quickly as possible. Therefore, clock paths require the least resistance. A larger pin size results in lower resistance.
 
 Another crucial consideration is that the pin placement area is typically blocked for both routing and cell placements. This necessitates a logical cell placement blockage, as depicted in the image above between the pins.
+
+<img width="725" height="486" alt="Screenshot 2025-07-17 194400" src="https://github.com/user-attachments/assets/939b747f-5a0f-4f0f-bce4-66d2292452ca" />
 
 With these steps, the floorplan is now ready for the Placement and Routing stages.
 
@@ -547,11 +583,14 @@ With these steps, the floorplan is now ready for the Placement and Routing stage
 
 Before running floorplanning, specific switches (parameters) for the process need to be set. These can be found in the OpenLane configuration files.
 
-[Image: Screenshot of floorplan configuration parameters]
+<img width="952" height="1017" alt="Screenshot 2025-07-17 194802" src="https://github.com/user-attachments/assets/653aaadf-7ad7-438c-b22c-39f81a1895c6" />
 
 As seen in the configuration, the core utilization ratio is 50% (by default), and the aspect ratio is 1 (by default). Other related information is also provided. However, these default values are not mandatory and can be modified based on specific design requirements.
 
 The FP_PDN files define the power distribution network. These switches are automatically configured in the floorplan stage by default within OpenLANE.
+
+<img width="961" height="1014" alt="Screenshot 2025-07-17 194906" src="https://github.com/user-attachments/assets/6b58400d-7121-4ab4-8fbf-05f7bdad662f" />
+
 FP_IO_MODE 1 0 indicates that pin positioning is random but ensures equal spacing between pins.
 
 In OpenLANE, the system defaults (e.g., floorplanning.tcl) have the lowest priority. The config.tcl file (at the design level) has the next priority, and the highest priority is given to the PDK variant's config.tcl (e.g., sky130A_sky130_fd_sc_hd_config.tcl).
@@ -562,7 +601,14 @@ Now, let's examine how the floorplan runs with these settings.
 
 Inside the run folder, you'll find a config.tcl file. This file contains all the configurations adopted by the current flow. Opening it allows you to verify which parameters were active during the current run.
 
+<img width="957" height="1019" alt="Screenshot 2025-07-17 195019" src="https://github.com/user-attachments/assets/b9450f6a-67b9-4966-9520-ba6f85df36e3" />
+
+<img width="961" height="1014" alt="Screenshot 2025-07-17 194906" src="https://github.com/user-attachments/assets/a9e283da-1b62-4cef-bef1-b01d605864cc" />
+
+
 To visualize the floorplan layout, navigate to the results folder. Here, a .def (Design Exchange Format) file is available. Opening this file reveals detailed information such as the die area (e.g., (0 0) to (660685 671405)) and the unit distance in microns (e.g., 1000, meaning 1 micron equals 1000 database units). By dividing the die dimensions (660685 and 671405) by 1000, you can obtain the chip's dimensions in micrometers.
+
+<img width="955" height="1018" alt="Screenshot 2025-07-17 195623" src="https://github.com/user-attachments/assets/7a34f6d3-27b3-4187-986a-0f99de30339d" />
 
 So, for instance, the chip's width would be 660.685 micrometers, and its height would be 671.405 micrometers.
 
@@ -573,25 +619,25 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 ```
 After pressing Enter, the Magic file will open, displaying the layout.
 
+<img width="953" height="1027" alt="Screenshot 2025-07-17 195852" src="https://github.com/user-attachments/assets/1549f4dc-6058-4db5-b600-f63dfe615ab5" />
+
 #### Review floorplan layout in Magic
 
 In the Magic layout, you can observe that the input and output pins are positioned at equal distances.
 
-[Image: Magic layout showing I/O pins]
+<img width="957" height="1016" alt="Screenshot 2025-07-17 195952" src="https://github.com/user-attachments/assets/dc35a0d5-7904-4b63-9914-82dcc81418be" />
 
 To inspect a specific input pin (select by clicking on it and pressing 's' on the keyboard; zoom in with 'z', zoom out with 'shift+z'), open the tkcon window and type `what`. This command will display detailed information about that particular pin.
 
-[Image: tkcon output showing pin details]
-
-The output confirms that the selected pin is located on metal 3. Similarly, checking vertical pins might reveal they are on metal 2.
+<img width="955" height="1011" alt="Screenshot 2025-07-17 200113" src="https://github.com/user-attachments/assets/2cce31fe-b82b-44c0-9ed7-55e95f6453ab" />
 
 Additionally, Decap cells (Decoupling Capacitors) are arranged along the borders of the side rows.
 
-[Image: Magic layout showing Decap cells]
+<img width="961" height="1014" alt="Screenshot 2025-07-17 200327" src="https://github.com/user-attachments/assets/e6ac120e-cd2d-4edf-bbfa-fc7df3e1b0ab" />
 
 Here, you can distinguish different standard cells, such as Buffer 1, Buffer 2, AND gates, and so on.
 
-[Image: Magic layout zoomed in on standard cells]
+<img width="714" height="362" alt="Screenshot 2025-07-17 200536" src="https://github.com/user-attachments/assets/f0d17ab7-4f3d-4d80-a4e6-03d4bcb48e42" />
 
 #### Library building and Placement
 
@@ -599,16 +645,29 @@ Here, you can distinguish different standard cells, such as Buffer 1, Buffer 2, 
 Bind netlist with physical cells:
 A netlist logically describes gates (e.g., a NOT gate as a triangle). In reality, these gates are physical boxes with defined width and height, like square boxes for AND gates or flip-flops.
 Each component of the netlist is assigned a specific physical shape and dimensions because abstract shapes (like graphical AND/OR gates) do not exist in the real world. All blocks also possess defined width, height, and proper physical form.
+
+<img width="884" height="496" alt="Screenshot 2025-07-17 200718" src="https://github.com/user-attachments/assets/467664d5-6d85-4fb7-bd83-189257710fe8" />
+
 After removing the wires, all the gates, flip-flops, and blocks are conceptually available in a collection called the Library.
 A Library functions like a physical library: it houses various "books" (gates, flip-flops) and provides their timing information (e.g., gate delays). A library can be structured into sub-libraries, perhaps one containing shape and size information, and another solely containing delay data.
 Crucially, a library typically offers multiple "flavors" for each cell; the same cell might have a larger physical size in a different library section. Larger cells generally offer lower resistance paths, leading to faster operation and reduced delay. Designers can select cells based on timing conditions and available space on the floorplan.
+
+<img width="890" height="498" alt="Screenshot 2025-07-17 200729" src="https://github.com/user-attachments/assets/a682ac9c-709b-4334-8531-dcafc49af5aa" />
 
 **Placement:**
 Once each gate has been assigned its proper physical shape and size, the next step is to place these physical representations onto the floorplan.
 We begin with the floorplan, which includes defined input/output ports and a specific netlist where each component has a defined size. This gives us a physical view of the logic gates.
 The placement process involves taking the connectivity information from the netlist and arranging the physical gate views onto the floorplan.
+
+<img width="897" height="503" alt="Screenshot 2025-07-17 200742" src="https://github.com/user-attachments/assets/669a363b-a784-4b71-80f8-702c2d64196c" />
+
 Placement tools ensure that previously pre-placed cells (from earlier stages) retain their fixed locations and that no new cells are placed on top of them. The primary objective is to arrange the netlist's physical components on the floorplan such that logical connectivity is preserved, interactions with I/O ports are optimized for timing, and overall delay is minimized.
+
+<img width="884" height="506" alt="Screenshot 2025-07-17 200756" src="https://github.com/user-attachments/assets/e53a3f61-421d-4837-8b5e-c1f160437142" />
+
 Initially, the remaining netlist components are arranged on the floorplan. While most elements are placed close to their I/O pins, some, like FF1 of Stage 4 relative to Din4, may still be distant. This distance problem can be resolved through placement optimization.
+
+<img width="887" height="484" alt="Screenshot 2025-07-17 201051" src="https://github.com/user-attachments/assets/d52a0782-e30b-4dc9-8ca1-3da0bc55a5a6" />
 
 #### Optimize placement using estimated wire-length and capacitance
 
@@ -616,15 +675,22 @@ Initially, the remaining netlist components are arranged on the floorplan. While
 Consider the connection from FF1 to Din2. If a wire directly connects them, its length could be considerable, leading to high capacitance and resistance. Sending a signal over such a long wire would make it difficult for FF1 to receive the input reliably due to signal degradation.
 To maintain signal integrity over long distances, intermediate steps are introduced. These are called Repeaters, which are essentially buffers. Repeaters recondition the original signal, create a new, clean replica, and forward it. This process repeats until the signal successfully reaches the target cell.
 While repeaters solve signal integrity issues, they consume additional area on the floorplan, as more repeaters mean more occupied space.
+
+<img width="889" height="493" alt="Screenshot 2025-07-17 201119" src="https://github.com/user-attachments/assets/ef5deb3b-5f1d-4056-8e8c-29762d5fcef4" />
+
 In Stage 1, a signal might not require any repeaters. However, in Stage 2, due to a significant distance, the wire length is high, and the signal cannot be transmitted reliably within the desired range, thus requiring a repeater.
+
+<img width="900" height="497" alt="Screenshot 2025-07-17 201147" src="https://github.com/user-attachments/assets/9c1ff5f3-a7a6-479a-acf1-3339eb5233e7" />
 
 #### Final placement optimization
 
 Similar to Stage 2, Stage 3 also requires a buffer between Gate2 and FF2.
 
-[Image: Circuit diagram showing Gate2 and FF2]
+<img width="889" height="490" alt="Screenshot 2025-07-17 201210" src="https://github.com/user-attachments/assets/c918b53d-92c9-43a1-9c7e-22376af1f032" />
 
 Stage 4 presents more complexity compared to other stages. To verify the correctness of our actions, we need to perform Timing Analysis using ideal clocks. Based on the analysis data, we can determine if the placement is correct.
+
+<img width="896" height="496" alt="Screenshot 2025-07-17 201229" src="https://github.com/user-attachments/assets/59906110-1120-408a-9c8f-e1e9c6c94991" />
 
 #### Need for libraries and characterization
 
@@ -644,16 +710,21 @@ When placement is initiated, global placement runs first, primarily aiming to re
 
 Now, let's open the Magic file to view the actual standard cell placement.
 
-[Image: Magic view of standard cell placement]
+<img width="954" height="1016" alt="Screenshot 2025-07-17 201526" src="https://github.com/user-attachments/assets/65facdfc-dfe9-4f96-b48a-21046cbef3d5" />
 
 The actual view in the Magic file is shown above.
 Zooming into this view, you can identify various components like buffers, gates, and flip-flops.
+
+<img width="955" height="1017" alt="Screenshot 2025-07-17 201608" src="https://github.com/user-attachments/assets/d3ef2d53-0cc8-4423-aba5-9f29f2e40116" />
 
 #### Cell design and characterization flows
 
 **Inputs for cell design flow**
 In the Cell Design Flow, gates, flip-flops, and buffers are referred to as 'Standard Cells'. These standard cells are stored in a section called the 'Library'.
 Within the library, numerous other cells are available, sharing the same functionality but varying in size.
+
+<img width="884" height="479" alt="Screenshot 2025-07-17 201840" src="https://github.com/user-attachments/assets/a5a4e90f-bcd2-49f5-a5b5-0ef23fabb5d5" />
+
 The cell design flow for an inverter (from the library) typically involves the following steps:
 An inverter must be represented in terms of its physical shape, drive strength, power characteristics, and so on.
 Cell design flow is generally divided into three parts:
@@ -666,6 +737,8 @@ Cell design flow is generally divided into three parts:
 Inputs required for cell design include: PDKs (Process Design Kits), DRC (Design Rule Check) and LVS (Layout Versus Schematic) rules, SPICE models, a library, and user-defined specifications.
 The DRC & LVS rules are provided in a technology file, which contains design rules and actual values. These rules can be converted into code.
 A SPICE model provides information like the threshold voltage equation for transistors.
+
+<img width="888" height="485" alt="Screenshot 2025-07-17 201857" src="https://github.com/user-attachments/assets/cf794f0b-1bbd-4c3f-b0ef-a560e463701a" />
 
 **Circuit design steps**
 The separation between the power rail and the ground rail defines the cell height. Cell width, on the other hand, depends on timing requirements and drive strength.
@@ -689,12 +762,26 @@ The typical outputs from the circuit design phase include:
 * LEF (Library Exchange Format) file
 * Extracted SPICE netlist (.cir) file
 
+<img width="874" height="496" alt="Screenshot 2025-07-17 201952" src="https://github.com/user-attachments/assets/a2ad4541-7ac8-4851-a4cc-08e24c717df0" />
+
 **Layout design step**
 In Layout Design, the first step is to implement the circuit's function using MOS transistors (a set of PMOS and NMOS transistors).
 The second step involves extracting the PMOS network graph and the NMOS network graph from the implemented design.
+
+<img width="915" height="497" alt="Screenshot 2025-07-17 202026" src="https://github.com/user-attachments/assets/f84ed3fc-cd14-48e5-8e7d-879c6a3b2b1e" />
+
 After obtaining the network graphs, the next step is to derive Euler's path. Euler's path is essentially a path that traverses each edge of a graph exactly once.
+
+<img width="891" height="487" alt="Screenshot 2025-07-17 202053" src="https://github.com/user-attachments/assets/f0250647-9925-4055-b683-e6046a875548" />
+
 The subsequent step is to draw a stick diagram based on Euler's path. This stick diagram is derived from the circuit diagram.
+
+<img width="492" height="301" alt="Screenshot 2025-07-17 202133" src="https://github.com/user-attachments/assets/e8c6e20a-42d0-4329-a91b-aeab9bd762a4" />
+
 The next crucial step is to convert this stick diagram into a proper Layout, applying the appropriate design rules discussed earlier. Once the specific layout is achieved, details such as cell width, cell length, and all other specifications (like drain current, pin locations, etc.) will be defined.
+
+<img width="282" height="321" alt="Screenshot 2025-07-17 202211" src="https://github.com/user-attachments/assets/9691a70b-fbf0-4928-8734-b8a21e40d392" />
+
 The next and final step is to extract the parasitics of that particular layout and characterize it in terms of timing. The output of the layout design phase is the GDSII file. Once the extracted SPICE netlist is obtained, it is characterized. Characterization helps in obtaining detailed timing, noise, and power information.
 
 #### Typical characterization flow
@@ -710,9 +797,13 @@ Let's outline a typical characterization flow based on the inputs we have:
 7. Provide the necessary output capacitance.
 8. Provide the necessary simulation command (e.g., .tran for transient simulation, .dc for DC simulation).
 
+<img width="762" height="420" alt="Screenshot 2025-07-17 202238" src="https://github.com/user-attachments/assets/b5f7b4b6-ed15-470d-943a-bb20554e2bbc" />
+
 The next step involves feeding all these inputs (steps 1 to 8) in the form of a configuration file to the characterization software, typically named "GUNA".
 
 This software then generates the power, noise, and timing models.
+
+<img width="883" height="501" alt="Screenshot 2025-07-17 202319" src="https://github.com/user-attachments/assets/cc970ef5-e218-4649-a6dc-9ae230c51aab" />
 
 #### General timing characterization parameters
 
@@ -720,21 +811,39 @@ This software then generates the power, noise, and timing models.
 As seen in the previous section, with inverters connected back-to-back, power sources, and applied stimulus, it becomes critical to understand different threshold points of a waveform. These are called "Timing threshold definitions."
 In the figure below, the term Slew_low_rise_thr depicts a value close to 0, typically around 20%, but it could also be 30%.
 
-[Image: Waveform illustrating Slew_low_rise_thr]
+<img width="880" height="486" alt="Screenshot 2025-07-17 202352" src="https://github.com/user-attachments/assets/647ff7b9-6d7d-47b1-b71e-17cc5914f71e" />
 
 * Slew_high_rise_thr
+
+<img width="886" height="503" alt="Screenshot 2025-07-17 202410" src="https://github.com/user-attachments/assets/30bff620-83eb-4641-a83b-ec9a73fbb57b" />
+
 * Slew_low_fall_thr
+
+<img width="887" height="502" alt="Screenshot 2025-07-17 202453" src="https://github.com/user-attachments/assets/1e06e570-2e48-4c1e-a711-521042a6c4e9" />
+
 * Slew_high_fall_thr
+
+<img width="887" height="501" alt="Screenshot 2025-07-17 202509" src="https://github.com/user-attachments/assets/bf777198-7d61-4ce5-9879-2b3d9a2fcea6" />
 
 Now, considering the waveform of the input stimulus (input to the first buffer) and the output of the first buffer, thresholds for delay are also available, similar to slew thresholds. For delay, these thresholds are typically around 50%.
 
 * in_rise_thr
+
+<img width="873" height="486" alt="Screenshot 2025-07-17 202535" src="https://github.com/user-attachments/assets/d651bc0e-f50f-426e-a91b-0e19588edaf6" />
+
 * in_fall_thr
 
 Its typical value is 50%.
 
+<img width="887" height="504" alt="Screenshot 2025-07-17 202613" src="https://github.com/user-attachments/assets/875b7b44-31c8-4f2e-947f-8ebce69686cd" />
+
 * out_rise_thr
+
+<img width="890" height="496" alt="Screenshot 2025-07-17 202624" src="https://github.com/user-attachments/assets/2f5dfb33-8535-409a-ac6d-2e84ecfca6cc" />
+
 * out_fall_thr
+
+<img width="882" height="497" alt="Screenshot 2025-07-17 202636" src="https://github.com/user-attachments/assets/f1ee572e-afa5-4908-bf48-7c17f91f5d77" />
 
 #### Propagation delay and transition time
 
@@ -742,8 +851,13 @@ Based on the above values, we calculate further parameters like propagation dela
 To calculate the delay of any signal, we subtract `out_rise_thr` from `in_rise_thr`. Taking a typical value of 50%, let's see how it works on a waveform:
 Time delay = Time(out_thr) - Time(in_thr)
 
+<img width="848" height="437" alt="Screenshot 2025-07-17 202733" src="https://github.com/user-attachments/assets/4f8a584a-c53a-4697-98da-eb129b8bd562" />
+
 In the example above, `in_rise_thr` and `out_fall_thr` were set at 50%. However, if the threshold point shifts upwards, the output might appear before the input, resulting in a negative delay. Negative delays are generally unacceptable. The presence of negative delay indicates a poor choice of threshold point, highlighting its crucial importance.
+
 Let's consider another example where the threshold point is chosen correctly, yet a negative delay can still occur. This happens because the output appears before the input, which is an unacceptable negative delay.
+
+<img width="803" height="413" alt="Screenshot 2025-07-17 202749" src="https://github.com/user-attachments/assets/06ad1775-4cc2-4c4e-9655-98e9a948fe2b" />
 
 Transition time is calculated as:
 Transition time = Time(slew_high_rise_thr) - Time(slew_low_rise_thr)
@@ -752,7 +866,7 @@ Transition time = Time(slew_high_fall_thr) - Time(slew_low_fall_thr)
 
 Let's use a waveform to understand slew calculation.
 
-[Image: Waveform illustrating slew calculation]
+<img width="838" height="403" alt="Screenshot 2025-07-17 202811" src="https://github.com/user-attachments/assets/f9133671-aec7-4e21-8478-da9f3457609e" />
 
 ---
 
@@ -1496,11 +1610,17 @@ Now, we must create a new `pre_sta.conf` file. This can be done using a vim edit
 Next, we will create a `my_base.sdc` file that will contain environment variable definitions.
 This `my_base.sdc` file also needs to be created in the `openlane/designs/picorv32a/src` directory, containing the data shown in the image below:
 
-->>>>>>>>>>>>>>>>>>>>>---------------
+<img width="950" height="1016" alt="Screenshot 2025-07-21 031837" src="https://github.com/user-attachments/assets/876c8ff1-c055-40d8-87af-e63f06ac82b0" />
+
+<img width="957" height="1023" alt="Screenshot 2025-07-21 031916" src="https://github.com/user-attachments/assets/8d342576-86ab-420a-a7fe-2d00aca11a1d" />
 
 Now, navigate to the OpenLane directory in a new terminal and execute the `sta pre_sta.conf` command.
 
-[Image: Terminal command for sta pre_sta.conf]
+<img width="953" height="1017" alt="Screenshot 2025-07-21 031927" src="https://github.com/user-attachments/assets/c73dfe07-221d-45cc-a766-21341b0f2b05" />
+
+<img width="948" height="1014" alt="Screenshot 2025-07-21 032013" src="https://github.com/user-attachments/assets/7ee81f0d-1814-437b-ab03-536d460b69f1" />
+
+<img width="957" height="1022" alt="Screenshot 2025-07-21 032024" src="https://github.com/user-attachments/assets/e7da34ae-aa95-4072-a0c5-6b4074e6efe5" />
 
 #### Lab steps to optimize synthesis to reduce setup violations
 
@@ -1515,14 +1635,22 @@ set ::env(SYNTH_MAX_FANOUT) 4
 echo $::env(SYNTH_DRIVING_CELL)
 run_synthesis
 ```
+<img width="959" height="1015" alt="Screenshot 2025-07-21 035026" src="https://github.com/user-attachments/assets/8b3c7b92-aeef-4122-abf8-635587aed045" />
+
+<img width="957" height="1015" alt="Screenshot 2025-07-21 035123" src="https://github.com/user-attachments/assets/ef70d5b0-44c4-4757-94ad-e5a7cca36d6f" />
 
 Now, execute the `sta pre_sta.conf` command in a new terminal within the OpenLane directory itself.
 
-[Image: Terminal command for sta pre_sta.conf after optimization]
+<img width="956" height="1015" alt="Screenshot 2025-07-21 035228" src="https://github.com/user-attachments/assets/1d084cd8-8b94-4e4e-b217-02efc914df2d" />
+
+<img width="956" height="1014" alt="Screenshot 2025-07-21 035307" src="https://github.com/user-attachments/assets/4455efd7-e0eb-40bf-bd02-95e5edd3a694" />
 
 #### Lab steps to do basic timing ECO
 
 Consider an OR gate with a drive strength of 2, driving a fanout of 4.
+
+<img width="888" height="196" alt="Screenshot 2025-07-21 100257" src="https://github.com/user-attachments/assets/11ce790e-5a1c-4587-a8c6-fe6a93aa11ae" />
+
 To address this, we need to replace this OR gate with another OR gate having a drive strength of 4. Execute the following commands:
 To report all connections to a net:
 
@@ -1548,9 +1676,14 @@ To generate the custom timing report:
 report_checks -fields {net cap slew input_pins} -digits 4
 ```
 
-[Image: Terminal output showing slack reduction]
+<img width="955" height="1019" alt="Screenshot 2025-07-21 101031" src="https://github.com/user-attachments/assets/f3504748-84cb-4093-92d0-bb05cba04269" />
+
+<img width="961" height="1017" alt="Screenshot 2025-07-21 101052" src="https://github.com/user-attachments/assets/fbbadfcb-4b26-4632-a6f4-f1aaf6718e54" />
 
 We can observe that the slack has reduced from -23.89 to -23.51.
+
+<img width="892" height="198" alt="Screenshot 2025-07-21 101216" src="https://github.com/user-attachments/assets/9c8d30a1-9e56-4017-aae4-8bc5402ab478" />
+
 In the case above, another OR gate with a drive strength of 2 is also driving a fanout of 4.
 We must replace this OR gate with another OR gate having a drive strength of 4 by following these commands:
 To report all connections to a net:
@@ -1571,44 +1704,45 @@ To generate the custom timing report:
 report_checks -fields {net cap slew input_pins} -digits 4
 ```
 
-[Image: Terminal output showing further slack reduction]
-
 #### Clock tree synthesis TritonCTS and signal integrity
 
 **Clock tree routing and buffering using H-Tree algorithm**
 **Clock tree synthesis:** This involves physically connecting clk1 to sequential elements like FF1 & FF2 of Stage 1, and FF1 of Stage 3 & FF2 of Stage 4.
 
-[Image: Initial clock connection with physical wire]
+<img width="879" height="430" alt="Screenshot 2025-07-21 120257" src="https://github.com/user-attachments/assets/bba38ba7-0ce7-42af-9353-3eb8a4e79cac" />
 
 Now, let's identify a potential problem. If there's a physical distance between the clock source and FF1, and FF2, it could lead to t2 > t1.
 Skew is defined as t2 - t1, and ideally, it should be 0ps.
 
-[Image: Clock skew illustration]
+<img width="481" height="173" alt="Screenshot 2025-07-21 124238" src="https://github.com/user-attachments/assets/77211115-5f9c-4ed3-bb8e-eb7445e7d449" />
 
 Previously, we built a non-optimal clock tree. We will now optimize it. By routing the clock to arrive at midpoints, it can reach every flip-flop at almost the same time. Similarly, clk2 will be connected to its flip-flops in a midpoint manner.
 
-[Image: Optimized clock tree with midpoint connections]
+<img width="898" height="426" alt="Screenshot 2025-07-21 124514" src="https://github.com/user-attachments/assets/73ea7df6-ed5e-4548-8aae-b0f3319db077" />
 
 Next, we will examine clock tree synthesis (Buffering). When a clock signal travels along a route to specific locations and clock endpoints, it encounters various capacitances and resistors along the path.
 
-[Image: Clock route with capacitance and resistors]
+<img width="614" height="339" alt="Screenshot 2025-07-21 125524" src="https://github.com/user-attachments/assets/d2ddef44-12c7-4c6b-8b45-14899926c2cf" />
 
 Due to wire length and RC networks, the output waveform may not be identical to the input. To resolve this, repeaters are used. The key difference for clock repeaters, compared to data path repeaters, is that they ensure equal rise and fall times.
 The first step involves removing the existing clock route and placing two repeaters, allowing the clock to pass through them. In this scenario, the waveform generated by the repeaters will be propagated to the output. We can insert as many repeaters as needed to maintain a continuous flow of the clock signal to the output.
 
-[Image: Clock route with repeaters]
+<img width="895" height="441" alt="Screenshot 2025-07-21 130016" src="https://github.com/user-attachments/assets/54f9135a-f365-43c5-aa78-bff55e5b7722" />
 
 **Crosstalk and clock net shielding**
 **Clock Net Shielding:** Our objective is to design the clock tree such that the skew between the launch flip-flop and capture flip-flop is 0. Skew refers to the latency difference between the clock ports of the flip-flop pins. Clock net shielding is a critical aspect in design. We essentially "shield" a particular clock net, protecting it from external interference, much like providing a "house" for the clock.
+
+<img width="605" height="433" alt="Screenshot 2025-07-21 130606" src="https://github.com/user-attachments/assets/c4e0493a-b413-4131-a03b-db35b69b07a2" />
+
 If the clock net is left unprotected, two common problems can arise: Glitch and Delta Delay.
 Consider a clock net. When switching activity occurs on a nearby "aggressor" net, the strong coupling capacitance between the wires can directly impact the adjacent "victim" net.
 
-[Image: Crosstalk illustration with aggressor and victim nets]
+<img width="427" height="224" alt="Screenshot 2025-07-21 130908" src="https://github.com/user-attachments/assets/1210529c-3dd7-46bf-926c-668619f224cd" />
 
 Shielding is a technique that protects the victim net from these issues. In shielding, a wire is placed between the two wires where coupling capacitance is generated. This extra wire is then either grounded or connected to VDD.
 We observe that a delta delay occurs due to a "bump" when the signal switches from logic '1' to '0'. Consequently, the skew is no longer zero. The impact of crosstalk-induced delta delay is that it introduces a non-zero skew value.
 
-[Image: Delta delay and non-zero skew due to crosstalk]
+<img width="849" height="478" alt="Screenshot 2025-07-21 131109" src="https://github.com/user-attachments/assets/5c1254f1-5b87-4674-8e67-0781169a742d" />
 
 By implementing shielding, we effectively break the coupling capacitance between the aggressor and victim nets. Shields are designed not to switch, further enhancing isolation.
 
@@ -1616,7 +1750,7 @@ By implementing shielding, we effectively break the coupling capacitance between
 
 We now need to replace the old netlist with the newly generated netlist (which resulted from slack reduction). Following this, we will run floorplan, placement, and Clock Tree Synthesis (CTS).
 
-[Image: Netlist before modification]
+<img width="956" height="1015" alt="Screenshot 2025-07-21 134805" src="https://github.com/user-attachments/assets/a8f8b214-b87f-4fca-a1d8-a36da3a3b6db" />
 
 The image above shows the netlist before the modifications were made.
 To proceed, we must create a copy of this old netlist and then introduce the newly generated netlist into our OpenLane flow for subsequent processing.
@@ -1645,7 +1779,7 @@ To list the contents again:
 ls -ltr
 ```
 
-[Image: Terminal output showing netlist copy]
+<img width="957" height="1014" alt="Screenshot 2025-07-21 135413" src="https://github.com/user-attachments/assets/79349f74-0169-4c54-b5b6-f7ddbe5eaa29" />
 
 Now, we will re-run synthesis, then floorplan, placement, and CTS directly in the OpenLane directory using the following commands:
 
@@ -1666,9 +1800,13 @@ unset ::env(LIB_CTS)
 run_cts
 ```
 
-[Image: Terminal output showing CTS completion]
+<img width="960" height="1019" alt="Screenshot 2025-07-21 142031" src="https://github.com/user-attachments/assets/ba365287-1098-416c-a00c-a865090efd0d" />
+
+<img width="959" height="1016" alt="Screenshot 2025-07-21 142105" src="https://github.com/user-attachments/assets/098a1227-0f52-4c6d-b293-0af038757145" />
 
 A `.cts` file has now been created in the specified location, as shown in the image above.
+
+<img width="958" height="1018" alt="Screenshot 2025-07-21 142132" src="https://github.com/user-attachments/assets/6dd8e684-ee0f-44da-8a3a-c63dc694f7d7" />
 
 #### Lab steps to verify CTS runs
 
@@ -1701,16 +1839,17 @@ write_db pico_cts.db
 
 You can now observe that this database file is present in the OpenLane directory.
 
-[Image: Terminal output showing database creation]
-
 #### Timing analysis with real clock using openSTA
 
 **Setup timing analysis using real clocks**
 With a real clock, the circuit tree differs slightly from an ideal clock scenario, as it includes buffers and wires. The clock signal does not reach the launch or capture flip-flop at exactly t=0 due to delays introduced by these buffers.
 The combinational circuit equation, initially θ < T for an ideal clock, becomes (θ + Δ1) < (T + Δ2).
+
+<img width="829" height="481" alt="Screenshot 2025-07-21 152442" src="https://github.com/user-attachments/assets/241a800a-4df8-4df1-92d1-855b76331a65" />
+
 Let's define Δ1 as (1 + 2) and Δ2 as (1 + 3 + 4). The skew is then (Δ1 - Δ2).
 
-[Image: Circuit diagram for real clock timing]
+<img width="844" height="463" alt="Screenshot 2025-07-21 152945" src="https://github.com/user-attachments/assets/140291fa-2bdb-47c2-98a0-38615580ff84" />
 
 Furthermore, we must account for propagation skew (S) and uncertainty delay (US). The final equation then transforms to (θ + Δ1) < (T + Δ2 - S - US).
 We can also define (θ + Δ1) as the data arrival time and (T + Δ2 - S - US) as the data required time.
@@ -1720,19 +1859,30 @@ If (Data required time) - (Data arrival time) is positive, the timing is accepta
 Hold timing analysis is distinct from setup timing analysis. Here, we consider the first clock pulse simultaneously reaching both the launch flip-flop and the capture flip-flop.
 The Hold condition states that the Hold time (H) must be less than the combinational delay (θ), or (θ > H).
 
-[Image: Hold timing analysis illustration]
+<img width="857" height="486" alt="Screenshot 2025-07-21 153406" src="https://github.com/user-attachments/assets/1a2c5159-6553-4196-ac31-995cbb3dbfc8" />
 
 Hence, a finite time 'H' is required for Qm to reliably reach Q; this internal delay of MUX2 is equivalent to the hold time.
 When incorporating a real-time clock, the equation changes to (θ + Δ1) > (H + Δ2).
+
+<img width="773" height="441" alt="Screenshot 2025-07-21 154007" src="https://github.com/user-attachments/assets/9c2301c7-3637-44b6-bc95-fbeeeb50bcb2" />
 
 **Hold timing analysis using real clocks**
 The combinational delay should be greater than the hold time of the capture flip-flop.
 Once the clock reaches the launch flip-flop, it incurs approximately two buffer delays (Δ1). When it reaches the capture flip-flop, it incurs about three buffer delays (Δ2). The uncertainty value remains consistent for both flip-flops because the clock is applied from the same edge. Now, let's add the uncertainty value.
 
-[Image: Real clock hold timing with uncertainty]
+<img width="721" height="416" alt="Screenshot 2025-07-21 154853" src="https://github.com/user-attachments/assets/98390f9d-4875-4451-93aa-70d50918ad22" />
 
 Slack is calculated as Data arrival time - data required time. Slack should ideally be positive or zero. If slack becomes negative, it signifies a violation.
+
+<img width="786" height="144" alt="Screenshot 2025-07-21 154913" src="https://github.com/user-attachments/assets/fb689fe6-1319-4d66-9680-c3edcf90d022" />
+
 Let's identify the timing paths from the design, assuming a single clock.
+
+<img width="826" height="443" alt="Screenshot 2025-07-21 155522" src="https://github.com/user-attachments/assets/866e5c03-0dfb-4c71-9ef8-d47ca75be760" />
+
+<img width="304" height="71" alt="Screenshot 2025-07-21 155622" src="https://github.com/user-attachments/assets/8e9917f5-67fb-47b7-98b1-0d4ece43b4ef" />
+<img width="221" height="75" alt="Screenshot 2025-07-21 155642" src="https://github.com/user-attachments/assets/700e7f31-d8ab-4890-b9f2-380fb4ab2ef3" />
+
 
 #### Lab steps to analyze timing with real clocks using OpenSTA
 
@@ -1784,6 +1934,12 @@ To exit from OpenLane flow:
 ```bash
 exit
 ```
+
+<img width="958" height="1015" alt="Screenshot 2025-07-21 164242" src="https://github.com/user-attachments/assets/b57cef5a-f648-4fbd-b910-ad184935bbd2" />
+
+<img width="955" height="1018" alt="Screenshot 2025-07-21 164705" src="https://github.com/user-attachments/assets/356dd5ca-fc93-46f7-b558-97219d548c17" />
+
+<img width="960" height="1032" alt="Screenshot 2025-07-21 164726" src="https://github.com/user-attachments/assets/e39297dc-6317-46b5-81ec-776ee118d3c4" />
 
 #### Lab steps to execute OpenSTA with right timing libraries and CTS assignment
 
@@ -1843,6 +1999,13 @@ report_clock_skew -hold
 report_clock_skew -setup
 exit
 ```
+<img width="957" height="1018" alt="Screenshot 2025-07-21 181418" src="https://github.com/user-attachments/assets/ab2a4490-b3ad-41f6-8bd0-afc695366a62" />
+
+<img width="958" height="1021" alt="Screenshot 2025-07-21 181527" src="https://github.com/user-attachments/assets/8284c1e6-6671-4d7c-8ac7-a8a9d114fc2f" />
+
+<img width="955" height="980" alt="Screenshot 2025-07-21 182248" src="https://github.com/user-attachments/assets/f817c134-b52e-445e-ba9d-802bf6b0ae98" />
+
+<img width="958" height="1015" alt="Screenshot 2025-07-21 184936" src="https://github.com/user-attachments/assets/4cf7530a-f4aa-4123-b20f-f6dc95bca1a9" />
 
 ---
 
